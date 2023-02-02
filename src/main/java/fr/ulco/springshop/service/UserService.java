@@ -25,13 +25,13 @@ public class UserService implements UserServiceInterface {
     @Override
     public Optional<UserBO> findByEmail(String email) {
         Optional<UserEntity> userEntity = userRepository.findByEmail(email);
-        return userEntity.map(userConverter::convertToDTO);
+        return userEntity.map(userConverter::convertToBO);
     }
 
     @Override
     public UserBO createUser(UserBO userBO) {
         UserEntity user = userRepository.saveAndFlush(userConverter.convertToEntity(userBO));
-        return userConverter.convertToDTO(user);
+        return userConverter.convertToBO(user);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class UserService implements UserServiceInterface {
 
         UserEntity user = userRepository.saveAndFlush(userConverter.convertToEntity(userBO));
 
-        return userConverter.convertToDTO(user);
+        return userConverter.convertToBO(user);
     }
 
 

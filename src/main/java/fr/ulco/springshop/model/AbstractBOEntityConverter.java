@@ -3,5 +3,5 @@ package fr.ulco.springshop.model;
 public abstract class AbstractBOEntityConverter<Entity, DTO> {
     public abstract Entity convertToEntity(DTO dto);
 
-    public abstract DTO convertToDTO(Entity entity);
+    public abstract DTO convertToBO(Entity entity);
 }

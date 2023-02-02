@@ -30,7 +30,7 @@ public class UserConverter extends AbstractBOEntityConverter<UserEntity, UserBO>
 
 
     @Override
-    public UserBO convertToDTO(UserEntity entity) {
+    public UserBO convertToBO(UserEntity entity) {
         return new UserBO(
                 entity.getId(),
                 entity.getEmail(),

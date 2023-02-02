@@ -46,7 +46,7 @@ public class OrderConverter extends AbstractBOEntityConverter<OrderEntity, Order
     }
 
     @Override
-    public OrderBO convertToDTO(OrderEntity orderEntity) {
+    public OrderBO convertToBO(OrderEntity orderEntity) {
         OrderBO o = new OrderBO();
         o.setId(orderEntity.getId());
         o.setCreatedAt(orderEntity.getCreatedAt());
@@ -58,7 +58,7 @@ public class OrderConverter extends AbstractBOEntityConverter<OrderEntity, Order
             item.setQuantity(x.getQuantity());
             item.setOrder(o);
 
-            item.setProduct(productConverter.convertToDTO(x.getProduct()));
+            item.setProduct(productConverter.convertToBO(x.getProduct()));
 
 
             items.add(item);

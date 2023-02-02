@@ -27,7 +27,7 @@ public class CategoryService implements CategoryServiceInterface {
     public Collection<CategoryBO> findAll() {
         return repository.findAll()
                 .stream()
-                .map(categoryConverter::convertToDTO)
+                .map(categoryConverter::convertToBO)
                 .collect(Collectors.toList());
     }
 
@@ -38,7 +38,7 @@ public class CategoryService implements CategoryServiceInterface {
         ce.setSlug(sluggerService.toSlug(name));
 
         repository.saveAndFlush(ce);
-        return categoryConverter.convertToDTO(ce);
+        return categoryConverter.convertToBO(ce);
     }
 
     @Override

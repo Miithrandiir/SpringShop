@@ -23,28 +23,18 @@ public class CategoryConverter extends AbstractBOEntityConverter<CategoryEntity,
         c.setId(categoryDTO.getId());
         c.setName(categoryDTO.getName());
         c.setSlug(categoryDTO.getSlug());
-        c.setProducts(categoryDTO.getProducts()
-                .stream()
-                .map(productConverter::convertToEntity)
-                .collect(Collectors.toList())
-        );
 
 
         return c;
     }
 
     @Override
-    public CategoryBO convertToDTO(CategoryEntity categoryEntity) {
+    public CategoryBO convertToBO(CategoryEntity categoryEntity) {
         CategoryBO c = new CategoryBO();
         c.setId(categoryEntity.getId());
         c.setName(categoryEntity.getName());
         c.setSlug(categoryEntity.getSlug());
-        c.setProducts(categoryEntity
-                .getProducts()
-                .stream()
-                .map(productConverter::convertToDTO)
-                .collect(Collectors.toList())
-        );
+
         return c;
     }
 }

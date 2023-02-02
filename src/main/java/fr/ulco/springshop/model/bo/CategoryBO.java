@@ -13,8 +13,6 @@ import java.util.Collection;
 @AllArgsConstructor
 public class CategoryBO {
     private int id;
-
     private String name;
     private String slug;
-    private Collection<ProductBO> products;
 }

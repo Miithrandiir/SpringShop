@@ -30,7 +30,7 @@ public class ProductConverter extends AbstractBOEntityConverter<ProductEntity, P
     }
 
     @Override
-    public ProductBO convertToDTO(ProductEntity productEntity) {
+    public ProductBO convertToBO(ProductEntity productEntity) {
         ProductBO p = new ProductBO();
         p.setId(productEntity.getId());
         p.setName(productEntity.getName());
