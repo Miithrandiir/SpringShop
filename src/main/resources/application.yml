@@ -1,0 +1,11 @@
+spring:
+    datasource:
+        url: jdbc:postgresql://localhost:5432/postgres
+        username: username
+        password: password
+    jpa:
+        show-sql: true # Pour afficher les requ?tes SQL dans la console
+        hibernate:
+            ddl-auto: none # Pour que Spring cr?er le sch?ma en lan?ant les migrations
+            naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+            dialect: org.hibernate.dialect.PostgreSQLDialect

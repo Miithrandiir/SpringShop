@@ -1,4 +1,4 @@
-package fr.statutis.statutis.configurations;
+package fr.ulco.springshop.configurations;
 
 import org.springframework.context.annotation.Configuration;
 
