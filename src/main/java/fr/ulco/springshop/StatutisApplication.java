@@ -1,7 +1,11 @@
 package fr.ulco.springshop;
 
 import fr.ulco.springshop.model.dto.UserDTO;
+import fr.ulco.springshop.service.HashPasswordService;
 import fr.ulco.springshop.service.UserService;
+import fr.ulco.springshop.service.core.CategoryServiceInterface;
+import fr.ulco.springshop.service.core.HashPasswordServiceInterface;
+import fr.ulco.springshop.service.core.UserServiceInterface;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,15 +21,10 @@ public class StatutisApplication {
     }
 
     @Bean
-    public CommandLineRunner run(final UserService userService) {
+    public CommandLineRunner run(final CategoryServiceInterface category) {
         return (String[] args) -> {
-            Optional<UserDTO> userDTO = userService.findByEmail("ludwig@silvain.eu");
 
-            System.out.println(userDTO.get().getPassword());
 
-            userDTO.get().setPassword("salut");
-
-            userService.updateUser(userDTO.get());
 
         };
     }

@@ -41,9 +41,6 @@ public class UserEntity {
     @Column(name = "enabled", nullable = false, columnDefinition = "bool default true", insertable = false)
     private boolean enabled;
 
-    @OneToMany(mappedBy = "user")
-    private Collection<OrderEntity> orders;
-
     public UserEntity(){
         enabled = true;
     }
