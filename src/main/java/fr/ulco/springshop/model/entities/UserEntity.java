@@ -1,6 +1,7 @@
 package fr.ulco.springshop.model.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,11 +13,11 @@ import java.util.Collection;
 @Entity
 @Setter
 @Getter
-@NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "email", unique = true, nullable = false)
@@ -31,15 +32,19 @@ public class UserEntity {
     @Column(name = "firstname", nullable = false)
     private String firstname;
 
-    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")
+    @Column(name = "created_at",  updatable = false, columnDefinition = "timestamp default current_timestamp", insertable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false, columnDefinition = "timestamp default current_timestamp")
+    @Column(name = "updated_at",  columnDefinition = "timestamp default current_timestamp", insertable = false)
     private LocalDateTime updatedAt;
 
-    @Column(name = "enabled", nullable = false, columnDefinition = "bit default 1::bit")
+    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true", insertable = false)
     private boolean enabled;
 
     @OneToMany(mappedBy = "user")
     private Collection<OrderEntity> orders;
+
+    public UserEntity(){
+        enabled = true;
+    }
 }

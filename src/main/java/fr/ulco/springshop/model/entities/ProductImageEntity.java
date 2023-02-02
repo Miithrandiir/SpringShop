@@ -13,13 +13,13 @@ import lombok.Setter;
 public class ProductImageEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "image", nullable = false)
     private String image;
 
     @ManyToOne
-    @Column(name="product_id", nullable = false)
+    @JoinColumn(name="product_id", nullable = false)
     private ProductEntity product;
 }

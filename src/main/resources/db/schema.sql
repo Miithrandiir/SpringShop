@@ -56,7 +56,7 @@ create table users
     firstname  varchar(255) not null,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    enabled    bit       default 1::bit,
+    enabled    bool      default true,
     primary key (id)
 );
 

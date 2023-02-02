@@ -15,14 +15,14 @@ import java.util.Collection;
 @NoArgsConstructor
 public class OrderEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "created_at", updatable = false, columnDefinition = "timestamp default current_timestamp")
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @Column(name = "user_id" , nullable = false)
+    @JoinColumn(name = "user_id" , nullable = false)
     private UserEntity user;
 
     @OneToMany(mappedBy = "order")
