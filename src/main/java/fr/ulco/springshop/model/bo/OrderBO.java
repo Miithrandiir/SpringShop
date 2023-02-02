@@ -1,4 +1,4 @@
-package fr.ulco.springshop.model.dto;
+package fr.ulco.springshop.model.bo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,13 +12,13 @@ import java.util.Collection;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
+public class OrderBO {
+
     private int id;
-    private String email;
-    private String password;
-    private String name;
-    private String firstname;
+
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private boolean enabled;
+
+    private UserBO user;
+
+    private Collection<OrderItemBO> items;
 }

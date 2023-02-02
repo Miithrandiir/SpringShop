@@ -1,7 +1,5 @@
-package fr.ulco.springshop.model.dto;
+package fr.ulco.springshop.model.bo;
 
-import fr.ulco.springshop.model.entities.CategoryEntity;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +12,7 @@ import java.util.Collection;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDTO {
+public class ProductBO {
 
     private int id;
     private String name;
@@ -24,5 +22,5 @@ public class ProductDTO {
     private LocalDateTime updatedAt;
     private String description;
     private String thumbnail;
-    private Collection<CategoryDTO> categories;
+    private Collection<CategoryBO> categories;
 }

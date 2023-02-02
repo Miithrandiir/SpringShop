@@ -1,4 +1,4 @@
-package fr.ulco.springshop.model.dto;
+package fr.ulco.springshop.model.bo;
 
 import fr.ulco.springshop.model.entities.ProductEntity;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductImageDTO {
+public class ProductImageBO {
     private int id;
     private String image;
     private ProductEntity product;

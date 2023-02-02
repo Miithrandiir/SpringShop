@@ -1,40 +1,37 @@
 package fr.ulco.springshop.model.conveter;
 
-import fr.ulco.springshop.model.DTOEntityConverter;
-import fr.ulco.springshop.model.dto.UserDTO;
+import fr.ulco.springshop.model.AbstractBOEntityConverter;
+import fr.ulco.springshop.model.bo.UserBO;
 import fr.ulco.springshop.model.entities.UserEntity;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.Collections;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class UserConverter extends DTOEntityConverter<UserEntity, UserDTO> {
+public class UserConverter extends AbstractBOEntityConverter<UserEntity, UserBO> {
 
     public static UserConverter create() {
         return new UserConverter();
     }
 
     @Override
-    public UserEntity convertToEntity(UserDTO userDTO) {
+    public UserEntity convertToEntity(UserBO userBO) {
         UserEntity user = new UserEntity();
-        user.setId(userDTO.getId());
-        user.setUpdatedAt(userDTO.getUpdatedAt());
-        user.setCreatedAt(userDTO.getCreatedAt());
-        user.setEnabled(userDTO.isEnabled());
-        user.setName(userDTO.getName());
-        user.setFirstname(userDTO.getFirstname());
-        user.setPassword(userDTO.getPassword());
-        user.setEmail(userDTO.getEmail());
+        user.setId(userBO.getId());
+        user.setUpdatedAt(userBO.getUpdatedAt());
+        user.setCreatedAt(userBO.getCreatedAt());
+        user.setEnabled(userBO.isEnabled());
+        user.setName(userBO.getName());
+        user.setFirstname(userBO.getFirstname());
+        user.setPassword(userBO.getPassword());
+        user.setEmail(userBO.getEmail());
 
         return user;
     }
 
 
     @Override
-    public UserDTO convertToDTO(UserEntity entity) {
-        return new UserDTO(
+    public UserBO convertToDTO(UserEntity entity) {
+        return new UserBO(
                 entity.getId(),
                 entity.getEmail(),
                 entity.getPassword(),

@@ -1,6 +1,6 @@
 package fr.ulco.springshop.service.core;
 
-import fr.ulco.springshop.model.dto.UserDTO;
+import fr.ulco.springshop.model.bo.UserBO;
 
 import java.util.Optional;
 
@@ -12,24 +12,24 @@ public interface UserServiceInterface {
      * @param email Email de l'utilisateur recherché
      * @return Utilisateur
      */
-    public Optional<UserDTO> findByEmail(String email);
+    public Optional<UserBO> findByEmail(String email);
 
     /**
      * Création d'un nouvel utilisateur
      *
-     * @param userDTO Nouvel utilisateur
+     * @param userBO Nouvel utilisateur
      * @return Nouvel Utilisateur
      */
-    public UserDTO createUser(UserDTO userDTO);
+    public UserBO createUser(UserBO userBO);
 
 
     /**
      * Mise à jour d'un utilisateur
      *
-     * @param userDTO Utilisateur mise à jour
+     * @param userBO Utilisateur mise à jour
      * @return Utilisateur mise à jour
      */
-    public UserDTO updateUser(UserDTO userDTO);
+    public UserBO updateUser(UserBO userBO);
 
 
 }

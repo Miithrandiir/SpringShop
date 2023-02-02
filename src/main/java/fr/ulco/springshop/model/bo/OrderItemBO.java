@@ -1,20 +1,18 @@
-package fr.ulco.springshop.model.dto;
+package fr.ulco.springshop.model.bo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Collection;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryDTO {
+public class OrderItemBO {
     private int id;
 
-    private String name;
-    private String slug;
-    private Collection<ProductDTO> products;
+    private OrderBO order;
+    private ProductBO product;
+    private int quantity;
 }

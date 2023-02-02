@@ -1,28 +1,28 @@
 package fr.ulco.springshop.model.conveter;
 
-import fr.ulco.springshop.model.DTOEntityConverter;
-import fr.ulco.springshop.model.dto.ProductDTO;
+import fr.ulco.springshop.model.AbstractBOEntityConverter;
+import fr.ulco.springshop.model.bo.ProductBO;
 import fr.ulco.springshop.model.entities.ProductEntity;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class ProductConverter extends DTOEntityConverter<ProductEntity, ProductDTO> {
+public class ProductConverter extends AbstractBOEntityConverter<ProductEntity, ProductBO> {
 
     public static ProductConverter create(){
         return new ProductConverter();
     }
 
     @Override
-    public ProductEntity convertToEntity(ProductDTO productDTO) {
+    public ProductEntity convertToEntity(ProductBO productBO) {
         ProductEntity p = new ProductEntity();
-        p.setId(productDTO.getId());
-        p.setName(productDTO.getName());
-        p.setCreatedAt(productDTO.getCreatedAt());
-        p.setUpdatedAt(productDTO.getUpdatedAt());
-        p.setPrice(productDTO.getPrice());
-        p.setQuantity(productDTO.getQuantity());
-        p.setThumbnail(productDTO.getThumbnail());
+        p.setId(productBO.getId());
+        p.setName(productBO.getName());
+        p.setCreatedAt(productBO.getCreatedAt());
+        p.setUpdatedAt(productBO.getUpdatedAt());
+        p.setPrice(productBO.getPrice());
+        p.setQuantity(productBO.getQuantity());
+        p.setThumbnail(productBO.getThumbnail());
 
         // TODO Catégories
 
@@ -30,8 +30,8 @@ public class ProductConverter extends DTOEntityConverter<ProductEntity, ProductD
     }
 
     @Override
-    public ProductDTO convertToDTO(ProductEntity productEntity) {
-        ProductDTO p = new ProductDTO();
+    public ProductBO convertToDTO(ProductEntity productEntity) {
+        ProductBO p = new ProductBO();
         p.setId(productEntity.getId());
         p.setName(productEntity.getName());
         p.setCreatedAt(productEntity.getCreatedAt());

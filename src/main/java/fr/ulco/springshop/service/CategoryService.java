@@ -2,7 +2,7 @@ package fr.ulco.springshop.service;
 
 import fr.ulco.springshop.model.conveter.CategoryConverter;
 import fr.ulco.springshop.model.dao.CategoryRepository;
-import fr.ulco.springshop.model.dto.CategoryDTO;
+import fr.ulco.springshop.model.bo.CategoryBO;
 import fr.ulco.springshop.model.entities.CategoryEntity;
 import fr.ulco.springshop.service.core.CategoryServiceInterface;
 import fr.ulco.springshop.service.core.SluggerServiceInterface;
@@ -24,7 +24,7 @@ public class CategoryService implements CategoryServiceInterface {
     }
 
     @Override
-    public Collection<CategoryDTO> findAll() {
+    public Collection<CategoryBO> findAll() {
         return repository.findAll()
                 .stream()
                 .map(categoryConverter::convertToDTO)
@@ -32,7 +32,7 @@ public class CategoryService implements CategoryServiceInterface {
     }
 
     @Override
-    public CategoryDTO create(String name) {
+    public CategoryBO create(String name) {
         CategoryEntity ce = new CategoryEntity();
         ce.setName(name);
         ce.setSlug(sluggerService.toSlug(name));
@@ -42,7 +42,7 @@ public class CategoryService implements CategoryServiceInterface {
     }
 
     @Override
-    public CategoryDTO update(CategoryDTO categoryDTO) {
+    public CategoryBO update(CategoryBO categoryDTO) {
         CategoryEntity ce = categoryConverter.convertToEntity(categoryDTO);
         repository.saveAndFlush(ce);
         return categoryDTO;

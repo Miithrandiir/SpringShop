@@ -1,7 +1,7 @@
 package fr.ulco.springshop.model.conveter;
 
-import fr.ulco.springshop.model.DTOEntityConverter;
-import fr.ulco.springshop.model.dto.CategoryDTO;
+import fr.ulco.springshop.model.AbstractBOEntityConverter;
+import fr.ulco.springshop.model.bo.CategoryBO;
 import fr.ulco.springshop.model.entities.CategoryEntity;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class CategoryConverter extends DTOEntityConverter<CategoryEntity, CategoryDTO> {
+public class CategoryConverter extends AbstractBOEntityConverter<CategoryEntity, CategoryBO> {
 
     private final ProductConverter productConverter;
 
@@ -18,7 +18,7 @@ public class CategoryConverter extends DTOEntityConverter<CategoryEntity, Catego
     }
 
     @Override
-    public CategoryEntity convertToEntity(CategoryDTO categoryDTO) {
+    public CategoryEntity convertToEntity(CategoryBO categoryDTO) {
         CategoryEntity c = new CategoryEntity();
         c.setId(categoryDTO.getId());
         c.setName(categoryDTO.getName());
@@ -34,8 +34,8 @@ public class CategoryConverter extends DTOEntityConverter<CategoryEntity, Catego
     }
 
     @Override
-    public CategoryDTO convertToDTO(CategoryEntity categoryEntity) {
-        CategoryDTO c = new CategoryDTO();
+    public CategoryBO convertToDTO(CategoryEntity categoryEntity) {
+        CategoryBO c = new CategoryBO();
         c.setId(categoryEntity.getId());
         c.setName(categoryEntity.getName());
         c.setSlug(categoryEntity.getSlug());

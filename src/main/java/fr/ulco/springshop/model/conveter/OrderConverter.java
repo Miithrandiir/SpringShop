@@ -1,8 +1,8 @@
 package fr.ulco.springshop.model.conveter;
 
-import fr.ulco.springshop.model.DTOEntityConverter;
-import fr.ulco.springshop.model.dto.OrderDTO;
-import fr.ulco.springshop.model.dto.OrderItemDTO;
+import fr.ulco.springshop.model.AbstractBOEntityConverter;
+import fr.ulco.springshop.model.bo.OrderBO;
+import fr.ulco.springshop.model.bo.OrderItemBO;
 import fr.ulco.springshop.model.entities.OrderEntity;
 import fr.ulco.springshop.model.entities.OrderItemEntity;
 import lombok.AccessLevel;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class OrderConverter extends DTOEntityConverter<OrderEntity, OrderDTO> {
+public class OrderConverter extends AbstractBOEntityConverter<OrderEntity, OrderBO> {
 
     private final ProductConverter productConverter;
 
@@ -21,7 +21,7 @@ public class OrderConverter extends DTOEntityConverter<OrderEntity, OrderDTO> {
     }
 
     @Override
-    public OrderEntity convertToEntity(OrderDTO orderDTO) {
+    public OrderEntity convertToEntity(OrderBO orderDTO) {
         OrderEntity o = new OrderEntity();
         o.setId(orderDTO.getId());
         o.setCreatedAt(orderDTO.getCreatedAt());
@@ -46,14 +46,14 @@ public class OrderConverter extends DTOEntityConverter<OrderEntity, OrderDTO> {
     }
 
     @Override
-    public OrderDTO convertToDTO(OrderEntity orderEntity) {
-        OrderDTO o = new OrderDTO();
+    public OrderBO convertToDTO(OrderEntity orderEntity) {
+        OrderBO o = new OrderBO();
         o.setId(orderEntity.getId());
         o.setCreatedAt(orderEntity.getCreatedAt());
 
-        Collection<OrderItemDTO> items = new ArrayList<>();
+        Collection<OrderItemBO> items = new ArrayList<>();
         orderEntity.getItems().forEach(x -> {
-            OrderItemDTO item = new OrderItemDTO();
+            OrderItemBO item = new OrderItemBO();
             item.setId(x.getId());
             item.setQuantity(x.getQuantity());
             item.setOrder(o);
