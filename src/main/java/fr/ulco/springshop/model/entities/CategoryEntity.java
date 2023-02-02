@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Collection;
+import java.util.Collections;
 
 @Table(name = "categories")
 @Entity
 @Setter
 @Getter
-@NoArgsConstructor
 public class CategoryEntity {
 
     @Id
@@ -26,5 +26,9 @@ public class CategoryEntity {
 
     @ManyToMany(mappedBy = "categories")
     private Collection<ProductEntity> products;
+
+    public CategoryEntity(){
+        products = Collections.emptyList();
+    }
 
 }

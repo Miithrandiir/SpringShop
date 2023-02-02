@@ -21,4 +21,19 @@ public class ServiceConfig {
     public UserServiceInterface userService(final UserRepository userRepository, final UserConverter userConverter) {
         return UserService.create(userRepository, userConverter);
     }
+
+    @Bean
+    public HashPasswordServiceInterface hashPasswordService() {
+        return HashPasswordService.create();
+    }
+
+    @Bean
+    public SluggerServiceInterface sluggerService() {
+        return SlugService.create();
+    }
+
+    @Bean
+    public CategoryServiceInterface categoryService(final CategoryRepository categoryRepository, final CategoryConverter categoryConverter, final SluggerServiceInterface sluggerService) {
+        return CategoryService.create(categoryRepository, categoryConverter, sluggerService);
+    }
 }
