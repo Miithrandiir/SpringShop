@@ -9,3 +9,7 @@ spring:
             ddl-auto: none # Pour que Spring cr?er le sch?ma en lan?ant les migrations
             naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
             dialect: org.hibernate.dialect.PostgreSQLDialect
+
+springdoc:
+    swagger-ui.path: /api
+    api-docs.path: /api/doc
