@@ -1,6 +1,5 @@
 package fr.ulco.springshop.controllers;
 
-import fr.ulco.springshop.model.bo.CategoryBO;
 import fr.ulco.springshop.model.dto.CategoryDTO;
 import fr.ulco.springshop.service.core.CategoryServiceInterface;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +25,7 @@ public class CategoryController {
                 .collect(Collectors.toList())
         );
     }
+
 
 
 }
