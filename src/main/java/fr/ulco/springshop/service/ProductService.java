@@ -49,6 +49,6 @@ public class ProductService implements ProductServiceInterface {
      */
     @Override
     public Collection<ProductBO> findByHighlighted() {
-       return this.productRepository.findByIsHighlightedTrue().stream().map(productConverter::convertToBO).collect(Collectors.toList());
+       return this.productRepository.findByHighlightedTrue().stream().map(productConverter::convertToBO).collect(Collectors.toList());
     }
 }

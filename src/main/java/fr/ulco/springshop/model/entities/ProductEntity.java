@@ -49,7 +49,7 @@ public class ProductEntity {
     private Collection<CategoryEntity> categories;
 
     @Column(name = "highlighted", nullable = false, columnDefinition = "bool default false", insertable = false)
-    private boolean isHighlighted;
+    private boolean highlighted;
 
 
 }
