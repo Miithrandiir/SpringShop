@@ -43,4 +43,12 @@ public class ProductService implements ProductServiceInterface {
     public Collection<ProductBO> findByCategory(String slugCategory) {
         return this.productRepository.findByCategories_Slug(slugCategory).stream().map(productConverter::convertToBO).collect(Collectors.toList());
     }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public Collection<ProductBO> findByHighlighted() {
+       return this.productRepository.findByIsHighlightedTrue().stream().map(productConverter::convertToBO).collect(Collectors.toList());
+    }
 }

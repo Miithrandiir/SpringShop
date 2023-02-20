@@ -7,9 +7,30 @@ import java.util.Optional;
 
 public interface ProductServiceInterface {
 
+    /**
+     * Find all products
+     * @return list of products
+     */
     Collection<ProductBO> findAll();
+
+    /**
+     * Find product by id
+     * @param id id of product
+     * @return product
+     */
     Optional<ProductBO> findById(int id);
 
+    /**
+     * Find products by category
+     * @param slugCategory slug of category
+     * @return list of products
+     */
     Collection<ProductBO> findByCategory(String slugCategory);
+
+    /**
+     * Find highlighted products
+     * @return list of products
+     */
+    Collection<ProductBO> findByHighlighted();
 
 }

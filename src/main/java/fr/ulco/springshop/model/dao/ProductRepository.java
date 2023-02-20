@@ -8,4 +8,8 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Integer> {
     List<ProductEntity> findByCategories_Slug(@NonNull String slug);
+
+    List<ProductEntity> findByIsHighlightedTrue();
+
+
 }

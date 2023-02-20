@@ -24,6 +24,7 @@ create table products
     updated_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
     description text         default null,
     thumbnail   varchar(255) default null,
+    highlighted bool         default false,
     primary key (id)
 );
 

@@ -23,4 +23,5 @@ public class ProductBO {
     private String description;
     private String thumbnail;
     private Collection<CategoryBO> categories;
+    private boolean isHighlighted;
 }

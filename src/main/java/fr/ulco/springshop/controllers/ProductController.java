@@ -38,4 +38,14 @@ public class ProductController {
         );
     }
 
+    @GetMapping(Routes.GET_HIGHLIGHTED_PRODUCTS)
+    public ResponseEntity<Collection<ProductDTO>> getHighlightedProducts() {
+        return ResponseEntity.ok(productService
+                .findByHighlighted()
+                .stream()
+                .map(x -> new ProductDTO(x.getName(), x.getPrice(), x.getQuantity(), x.getDescription(), x.getThumbnail()))
+                .collect(Collectors.toList())
+        );
+    }
+
 }
