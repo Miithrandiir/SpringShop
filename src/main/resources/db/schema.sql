@@ -18,7 +18,7 @@ create table products
 (
     id          INT GENERATED ALWAYS AS IDENTITY,
     name        varchar(255)   not null,
-    price       decimal(10, 2) not null,
+    price       float not null,
     quantity    int check ( quantity >= 0 ),
     created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
     updated_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,

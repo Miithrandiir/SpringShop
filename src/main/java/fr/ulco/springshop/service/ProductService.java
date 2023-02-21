@@ -41,7 +41,9 @@ public class ProductService implements ProductServiceInterface {
      */
     @Override
     public Collection<ProductBO> findByCategory(String slugCategory) {
-        return this.productRepository.findByCategories_Slug(slugCategory).stream().map(productConverter::convertToBO).collect(Collectors.toList());
+        return this.
+                productRepository.
+                findProductEntitiesByCategories_Slug(slugCategory).stream().map(productConverter::convertToBO).collect(Collectors.toList());
     }
 
     /**
@@ -49,6 +51,6 @@ public class ProductService implements ProductServiceInterface {
      */
     @Override
     public Collection<ProductBO> findByHighlighted() {
-       return this.productRepository.findByHighlightedTrue().stream().map(productConverter::convertToBO).collect(Collectors.toList());
+        return this.productRepository.findByHighlightedTrue().stream().map(productConverter::convertToBO).collect(Collectors.toList());
     }
 }

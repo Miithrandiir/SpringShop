@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Table(name = "products")
 @Entity
@@ -22,7 +23,7 @@ public class ProductEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "price", nullable = false, precision = 2, scale = 10)
+    @Column(name = "price", nullable = false, precision = 2)
     private float price;
 
     @Column(name = "quantity", nullable = false)
@@ -41,15 +42,14 @@ public class ProductEntity {
     private String thumbnail;
 
     @ManyToMany
-    @JoinTable(
-            name = "products_categories",
-            joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id")
-    )
-    private Collection<CategoryEntity> categories;
+    @JoinTable(name = "products_categories",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<CategoryEntity> categories = new LinkedHashSet<>();
 
     @Column(name = "highlighted", nullable = false, columnDefinition = "bool default false", insertable = false)
     private boolean highlighted;
+
 
 
 }
