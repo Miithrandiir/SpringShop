@@ -6,6 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class ProductDTO {
+    private int id;
     private String name;
     private float price;
 

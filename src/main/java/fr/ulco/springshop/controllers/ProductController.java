@@ -23,7 +23,7 @@ public class ProductController {
         return ResponseEntity.ok(productService
                 .findAll()
                 .stream()
-                .map(x -> new ProductDTO(x.getName(), x.getPrice(), x.getQuantity(), x.getDescription(), x.getThumbnail()))
+                .map(x -> new ProductDTO(x.getId(), x.getName(), x.getPrice(), x.getQuantity(), x.getDescription(), x.getThumbnail()))
                 .collect(Collectors.toList())
         );
     }
@@ -33,7 +33,7 @@ public class ProductController {
         return ResponseEntity.ok(productService
                 .findByCategory(slug)
                 .stream()
-                .map(x -> new ProductDTO(x.getName(), x.getPrice(), x.getQuantity(), x.getDescription(), x.getThumbnail()))
+                .map(x -> new ProductDTO(x.getId(), x.getName(), x.getPrice(), x.getQuantity(), x.getDescription(), x.getThumbnail()))
                 .collect(Collectors.toList())
         );
     }
@@ -43,7 +43,7 @@ public class ProductController {
         return ResponseEntity.ok(productService
                 .findByHighlighted()
                 .stream()
-                .map(x -> new ProductDTO(x.getName(), x.getPrice(), x.getQuantity(), x.getDescription(), x.getThumbnail()))
+                .map(x -> new ProductDTO(x.getId(), x.getName(), x.getPrice(), x.getQuantity(), x.getDescription(), x.getThumbnail()))
                 .collect(Collectors.toList())
         );
     }
