@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 public class FileSystemStorageService implements StorageServiceInterface {
@@ -43,6 +44,8 @@ public class FileSystemStorageService implements StorageServiceInterface {
             if (originalFilename == null)
                 throw new FileSystemException("Failed to store without name");
 
+            originalFilename = UUID.randomUUID() + "-" + originalFilename;
+
             Path destinationFile = this.rootLocation.resolve(
                             Paths.get(originalFilename))
                     .normalize().toAbsolutePath();
@@ -55,7 +58,7 @@ public class FileSystemStorageService implements StorageServiceInterface {
 
             Files.copy(file.getInputStream(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
 
-            return destinationFile.toString();
+            return originalFilename;
         } catch (IOException e) {
             throw new RuntimeException("Failed to store file");
         }

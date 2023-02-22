@@ -53,4 +53,12 @@ public class ProductService implements ProductServiceInterface {
     public Collection<ProductBO> findByHighlighted() {
         return this.productRepository.findByHighlightedTrue().stream().map(productConverter::convertToBO).collect(Collectors.toList());
     }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public ProductBO save(ProductBO productBO) {
+        return productConverter.convertToBO(this.productRepository.save(productConverter.convertToEntity(productBO)));
+    }
 }

@@ -33,4 +33,11 @@ public interface ProductServiceInterface {
      */
     Collection<ProductBO> findByHighlighted();
 
+    /**
+     * Save product
+     * @param productBO product to save
+     * @return product saved
+     */
+    ProductBO save(ProductBO productBO);
+
 }
