@@ -6,6 +6,7 @@ import fr.ulco.springshop.model.conveter.UserConverter;
 import fr.ulco.springshop.model.dao.CategoryRepository;
 import fr.ulco.springshop.model.dao.ProductRepository;
 import fr.ulco.springshop.model.dao.UserRepository;
+import fr.ulco.springshop.properties.StorageProperty;
 import fr.ulco.springshop.service.*;
 import fr.ulco.springshop.service.core.*;
 import org.springframework.context.annotation.Bean;
@@ -36,5 +37,10 @@ public class ServiceConfig {
     @Bean
     public ProductServiceInterface productService(final ProductRepository productRepository, final ProductConverter productConverter) {
         return ProductService.create(productRepository, productConverter);
+    }
+
+    @Bean
+    public StorageServiceInterface storageService(final StorageProperty storageProperty) {
+        return FileSystemStorageService.create(storageProperty);
     }
 }
