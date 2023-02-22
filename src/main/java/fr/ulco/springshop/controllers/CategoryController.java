@@ -5,6 +5,7 @@ import fr.ulco.springshop.service.core.CategoryServiceInterface;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
@@ -26,6 +27,11 @@ public class CategoryController {
         );
     }
 
-
-
+    @GetMapping(Routes.GET_CATEGORY_BY_SLUG)
+    public ResponseEntity<CategoryDTO> getCategoryBySlug(@PathVariable String slug) {
+        return ResponseEntity.ok(categoryService
+                .findBySlug(slug)
+                .map(x -> new CategoryDTO(x.getName(), x.getSlug()))
+                .orElse(null));
+    }
 }

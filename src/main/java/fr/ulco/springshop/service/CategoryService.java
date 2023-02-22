@@ -1,8 +1,8 @@
 package fr.ulco.springshop.service;
 
+import fr.ulco.springshop.model.bo.CategoryBO;
 import fr.ulco.springshop.model.conveter.CategoryConverter;
 import fr.ulco.springshop.model.dao.CategoryRepository;
-import fr.ulco.springshop.model.bo.CategoryBO;
 import fr.ulco.springshop.model.entities.CategoryEntity;
 import fr.ulco.springshop.service.core.CategoryServiceInterface;
 import fr.ulco.springshop.service.core.SluggerServiceInterface;
@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -46,5 +47,14 @@ public class CategoryService implements CategoryServiceInterface {
         CategoryEntity ce = categoryConverter.convertToEntity(categoryDTO);
         repository.saveAndFlush(ce);
         return categoryDTO;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public Optional<CategoryBO> findBySlug(String slug) {
+        Optional<CategoryEntity> categoryEntity = repository.findBySlug(slug);
+        return categoryEntity.map(categoryConverter::convertToBO);
     }
 }

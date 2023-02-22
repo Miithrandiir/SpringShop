@@ -6,6 +6,7 @@ public class Routes {
      * ROUTE CATEGORIES
      */
     public static final String GET_CATEGORIES = "/categories";
+    public static final String GET_CATEGORY_BY_SLUG = "/categories/{slug}";
 
     /**
      * ROUTE PRODUCTS
