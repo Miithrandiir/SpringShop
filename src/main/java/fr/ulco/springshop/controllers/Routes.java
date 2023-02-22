@@ -12,6 +12,7 @@ public class Routes {
      * ROUTE PRODUCTS
      */
     public static final String GET_PRODUCTS = "/products";
+    public static final String GET_PRODUCT_BY_ID = "/products/{id}";
     public static final String GET_PRODUCTS_BY_CATEGORY = "/products/category/{slug}";
     public static final String GET_HIGHLIGHTED_PRODUCTS = "/products/highlighted";
 }

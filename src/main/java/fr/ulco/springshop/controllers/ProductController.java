@@ -48,4 +48,12 @@ public class ProductController {
         );
     }
 
+    @GetMapping(Routes.GET_PRODUCT_BY_ID)
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable int id) {
+        return ResponseEntity.ok(productService
+                .findById(id)
+                .map(x -> new ProductDTO(x.getId(), x.getName(), x.getPrice(), x.getQuantity(), x.getDescription(), x.getThumbnail()))
+                .orElse(null));
+    }
+
 }
