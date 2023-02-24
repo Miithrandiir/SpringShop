@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Collection;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,4 +13,9 @@ public class CategoryBO {
     private int id;
     private String name;
     private String slug;
+
+    public CategoryBO(String name, String slug) {
+        this.name = name;
+        this.slug = slug;
+    }
 }

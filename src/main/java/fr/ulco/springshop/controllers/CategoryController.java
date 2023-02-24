@@ -1,14 +1,17 @@
 package fr.ulco.springshop.controllers;
 
+import fr.ulco.springshop.model.bo.CategoryBO;
 import fr.ulco.springshop.model.dto.CategoryDTO;
+import fr.ulco.springshop.model.form.CategoryForm;
 import fr.ulco.springshop.service.core.CategoryServiceInterface;
+import fr.ulco.springshop.service.core.SluggerServiceInterface;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -16,6 +19,7 @@ import java.util.stream.Collectors;
 public class CategoryController {
 
     private final CategoryServiceInterface categoryService;
+    private final SluggerServiceInterface sluggerService;
 
     @GetMapping(Routes.GET_CATEGORIES)
     public ResponseEntity<Collection<CategoryDTO>> getCategories() {
@@ -33,5 +37,42 @@ public class CategoryController {
                 .findBySlug(slug)
                 .map(x -> new CategoryDTO(x.getName(), x.getSlug()))
                 .orElse(null));
+    }
+
+    //ADMIN
+    @PostMapping(value = Routes.POST_CATEGORIES, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<CategoryDTO> postCategories(@ModelAttribute CategoryForm categoryDTO) {
+        return ResponseEntity.ok(categoryService.save(
+                        new CategoryBO(
+                                categoryDTO.getName(),
+                                sluggerService.toSlug(categoryDTO.getName())
+                        ))
+                .map(x -> new CategoryDTO(x.getId(), x.getName(), x.getSlug()))
+                .orElse(null));
+    }
+
+    //ADMIN
+    @DeleteMapping(value = Routes.DELETE_CATEGORY_BY_SLUG)
+    public ResponseEntity<Boolean> deleteCategoryBySlug(@PathVariable String slug) {
+        return ResponseEntity.ok(categoryService.deleteBySlug(slug));
+    }
+
+    //ADMIN
+    @PutMapping(value = Routes.UPDATE_CATEGORY_BY_SLUG, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<CategoryDTO> putCategoryBySlug(@PathVariable String slug,@ModelAttribute CategoryForm categoryDTO) {
+
+        Optional<CategoryBO> res = categoryService.updateBySlug(
+                slug,
+                new CategoryBO(
+                        categoryDTO.getName(),
+                        sluggerService.toSlug(categoryDTO.getName())
+                )
+        );
+
+        if(res.isPresent()) {
+            return ResponseEntity.ok(res.map(x -> new CategoryDTO(x.getId(), x.getName(), x.getSlug())).orElse(null));
+        }
+
+        return ResponseEntity.noContent().build();
     }
 }

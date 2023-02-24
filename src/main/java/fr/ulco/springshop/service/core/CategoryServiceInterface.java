@@ -38,5 +38,22 @@ public interface CategoryServiceInterface {
      */
     Optional<CategoryBO> findBySlug(String slug);
 
+    /**
+     * Save a category
+     *
+     * @param categoryBO    CategoryBO
+     * @return              CategoryBO
+     */
+    Optional<CategoryBO> save(CategoryBO categoryBO);
+
+    /**
+     * Delete a category by slug
+     * @param slug Slug of the category
+     * @return boolean
+     */
+    boolean deleteBySlug(String slug);
+
+    Optional<CategoryBO> updateBySlug(String slug, CategoryBO categoryBO);
+
 
 }
