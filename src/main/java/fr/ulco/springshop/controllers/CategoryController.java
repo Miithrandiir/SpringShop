@@ -33,22 +33,25 @@ public class CategoryController {
 
     @GetMapping(Routes.GET_CATEGORY_BY_SLUG)
     public ResponseEntity<CategoryDTO> getCategoryBySlug(@PathVariable String slug) {
-        return ResponseEntity.ok(categoryService
+        return categoryService
                 .findBySlug(slug)
                 .map(x -> new CategoryDTO(x.getName(), x.getSlug()))
-                .orElse(null));
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     //ADMIN
     @PostMapping(value = Routes.POST_CATEGORIES, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<CategoryDTO> postCategories(@ModelAttribute CategoryForm categoryDTO) {
-        return ResponseEntity.ok(categoryService.save(
+        return categoryService.save(
                         new CategoryBO(
                                 categoryDTO.getName(),
                                 sluggerService.toSlug(categoryDTO.getName())
-                        ))
+                        )
+                )
                 .map(x -> new CategoryDTO(x.getId(), x.getName(), x.getSlug()))
-                .orElse(null));
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     //ADMIN
@@ -59,7 +62,7 @@ public class CategoryController {
 
     //ADMIN
     @PutMapping(value = Routes.UPDATE_CATEGORY_BY_SLUG, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<CategoryDTO> putCategoryBySlug(@PathVariable String slug,@ModelAttribute CategoryForm categoryDTO) {
+    public ResponseEntity<CategoryDTO> putCategoryBySlug(@PathVariable String slug, @ModelAttribute CategoryForm categoryDTO) {
 
         Optional<CategoryBO> res = categoryService.updateBySlug(
                 slug,
@@ -69,10 +72,11 @@ public class CategoryController {
                 )
         );
 
-        if(res.isPresent()) {
-            return ResponseEntity.ok(res.map(x -> new CategoryDTO(x.getId(), x.getName(), x.getSlug())).orElse(null));
-        }
 
-        return ResponseEntity.noContent().build();
+        return res
+                .map(x -> new CategoryDTO(x.getId(), x.getName(), x.getSlug()))
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+
     }
 }

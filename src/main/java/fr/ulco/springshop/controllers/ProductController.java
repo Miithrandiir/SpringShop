@@ -6,6 +6,7 @@ import fr.ulco.springshop.model.form.ProductForm;
 import fr.ulco.springshop.service.core.ProductServiceInterface;
 import fr.ulco.springshop.service.core.StorageServiceInterface;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -70,10 +71,12 @@ public class ProductController {
 
     @GetMapping(Routes.GET_PRODUCT_BY_ID)
     public ResponseEntity<ProductDTO> getProductById(@PathVariable int id) {
-        return ResponseEntity.ok(productService
+        return productService
                 .findById(id)
                 .map(x -> new ProductDTO(x.getId(), x.getName(), x.getPrice(), x.getQuantity(), x.getDescription(), getRouteProductThumbnail(x)))
-                .orElse(null));
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+
     }
 
 
