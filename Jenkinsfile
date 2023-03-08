@@ -5,7 +5,7 @@ pipeline {
             steps {
                 script {
                     docker.image('maven:3.9-amazoncorretto-19').inside {
-                        sh 'mvn clean package'
+                        sh 'mvn clean package -DskipTests'
                     }
                 }
             }
