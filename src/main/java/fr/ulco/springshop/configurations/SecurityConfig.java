@@ -1,17 +1,15 @@
 package fr.ulco.springshop.configurations;
 
+import fr.ulco.springshop.controllers.Routes;
 import fr.ulco.springshop.security.UserDetailsService;
 import fr.ulco.springshop.security.UserDetailsServiceInterface;
 import fr.ulco.springshop.security.jwt.JwtAuthenticationEntryPoint;
 import fr.ulco.springshop.security.jwt.JwtTokenFilter;
 import fr.ulco.springshop.security.jwt.JwtTokenUtil;
 import fr.ulco.springshop.service.core.UserServiceInterface;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -60,8 +58,9 @@ public class SecurityConfig {
         http.csrf()
                 .disable()
                 .authorizeHttpRequests()
+                .requestMatchers(Routes.DELETE_CATEGORY_BY_SLUG, Routes.UPDATE_CATEGORY_BY_SLUG).hasRole("ADMIN")
                 .requestMatchers("/api/auth**","/api/auth/**").permitAll()
-                .requestMatchers("/webjars/**", "/swagger-ui*/*swagger-initializer.js", "/swagger-ui*/**", "/api/doc**", "/api/doc/**", "/api").permitAll()
+                .requestMatchers("/webjars/**", "/swagger-ui*/*swagger-initializer.js", "/swagger-ui*/**", "/api/doc**", "/api/doc/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

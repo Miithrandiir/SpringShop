@@ -5,6 +5,8 @@ import fr.ulco.springshop.model.dto.CategoryDTO;
 import fr.ulco.springshop.model.form.CategoryForm;
 import fr.ulco.springshop.service.core.CategoryServiceInterface;
 import fr.ulco.springshop.service.core.SluggerServiceInterface;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -56,12 +58,14 @@ public class CategoryController {
 
     //ADMIN
     @DeleteMapping(value = Routes.DELETE_CATEGORY_BY_SLUG)
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<Boolean> deleteCategoryBySlug(@PathVariable String slug) {
         return ResponseEntity.ok(categoryService.deleteBySlug(slug));
     }
 
     //ADMIN
     @PutMapping(value = Routes.UPDATE_CATEGORY_BY_SLUG, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<CategoryDTO> putCategoryBySlug(@PathVariable String slug, @ModelAttribute CategoryForm categoryDTO) {
 
         Optional<CategoryBO> res = categoryService.updateBySlug(

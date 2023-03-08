@@ -58,6 +58,7 @@ create table users
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     enabled    bool      default true,
+    role       varchar(255) default 'ROLE_USER',
     primary key (id)
 );
 

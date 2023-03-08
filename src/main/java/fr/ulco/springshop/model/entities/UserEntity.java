@@ -3,11 +3,9 @@ package fr.ulco.springshop.model.entities;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Table(name = "Users")
 @Entity
@@ -40,6 +38,9 @@ public class UserEntity {
 
     @Column(name = "enabled", nullable = false, columnDefinition = "bool default true", insertable = false)
     private boolean enabled;
+
+    @Column(name = "role", nullable = false, columnDefinition = "varchar(255) default 'ROLE_USER'", insertable = false)
+    private String role;
 
     public UserEntity(){
         enabled = true;

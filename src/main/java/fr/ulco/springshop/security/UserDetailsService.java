@@ -24,6 +24,8 @@ public class UserDetailsService implements UserDetailsServiceInterface {
         if (user.isEmpty()) {
             throw new UsernameNotFoundException("User not found");
         }
-        return user.get();
+
+        return new org.springframework.security.core.userdetails.User(user.get().getEmail(), user.get().getPassword(), user.get().getAuthorities());
+        //return user.get();
     }
 }
