@@ -24,6 +24,7 @@ public class CategoryController {
     private final SluggerServiceInterface sluggerService;
 
     @GetMapping(Routes.GET_CATEGORIES)
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<Collection<CategoryDTO>> getCategories() {
         return ResponseEntity.ok(categoryService
                 .findAll()

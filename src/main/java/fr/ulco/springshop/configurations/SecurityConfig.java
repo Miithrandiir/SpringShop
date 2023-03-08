@@ -9,7 +9,10 @@ import fr.ulco.springshop.security.jwt.JwtTokenUtil;
 import fr.ulco.springshop.service.core.UserServiceInterface;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authorization.AuthorityAuthorizationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +20,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -55,12 +59,18 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http, final JwtTokenFilter jwtTokenFilter) throws Exception {
+        //https://github.com/spring-projects/spring-security/issues/12766
+        AuthorityAuthorizationManager<RequestAuthorizationContext> hasRoleUser =
+                AuthorityAuthorizationManager.hasRole("USER");
+        hasRoleUser.setRoleHierarchy(roleHierarchy());
+
         http.csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers(Routes.DELETE_CATEGORY_BY_SLUG, Routes.UPDATE_CATEGORY_BY_SLUG).hasRole("ADMIN")
+                .requestMatchers(Routes.DELETE_CATEGORY_BY_SLUG, Routes.UPDATE_CATEGORY_BY_SLUG).hasRole("USER")
+                .requestMatchers(Routes.GET_CATEGORIES).access(hasRoleUser)
                 .requestMatchers("/api/auth**","/api/auth/**").permitAll()
-                .requestMatchers("/webjars/**", "/swagger-ui*/*swagger-initializer.js", "/swagger-ui*/**", "/api/doc**", "/api/doc/**").permitAll()
+                .requestMatchers("/webjars/**", "/swagger-ui*/*swagger-initializer.js", "/swagger-ui*/**", "/api/doc**", "/api/doc/**", "/api").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -87,5 +97,19 @@ public class SecurityConfig {
         config.addAllowedMethod("DELETE");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
+    }
+
+    @Bean
+    public RoleHierarchyImpl roleHierarchy() {
+        final RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");
+        return roleHierarchy;
+    }
+
+    @Bean
+    public DefaultMethodSecurityExpressionHandler expressionHandler() {
+        DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
+        expressionHandler.setRoleHierarchy(roleHierarchy());
+        return expressionHandler;
     }
 }
