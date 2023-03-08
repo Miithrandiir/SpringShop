@@ -20,11 +20,6 @@ public class ServiceConfig {
     }
 
     @Bean
-    public HashPasswordServiceInterface hashPasswordService() {
-        return HashPasswordService.create();
-    }
-
-    @Bean
     public SluggerServiceInterface sluggerService() {
         return SlugService.create();
     }

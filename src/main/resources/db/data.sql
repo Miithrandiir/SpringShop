@@ -45,6 +45,6 @@ INSERT INTO public.products_categories (product_id, category_id) VALUES (10, 4);
 INSERT INTO public.products_categories (product_id, category_id) VALUES (11, 5);
 INSERT INTO public.products_categories (product_id, category_id) VALUES (12, 5);
 
-INSERT INTO public.users (email, password, name, firstname, created_at, updated_at, enabled) VALUES ('john@doe.tld', 'disabled-password', 'DOE', 'John', '2023-02-20 09:13:27.716409', '2023-02-20 09:13:27.716409', true);
-INSERT INTO public.users (email, password, name, firstname, created_at, updated_at, enabled) VALUES ('test@test.tld', 'disabled-password', 'TEST', 'Test', '2023-02-20 09:13:27.716409', '2023-02-20 09:13:27.716409', true);
+INSERT INTO public.users (email, password, name, firstname, created_at, updated_at, enabled) VALUES ('john@doe.tld', '$2y$10$pF2qXuc8pe2V3zdFXqToBeccuO6/i/021Bk6Zrn/AoqcvkV8lUCHK', 'DOE', 'John', '2023-02-20 09:13:27.716409', '2023-02-20 09:13:27.716409', true);
+INSERT INTO public.users (email, password, name, firstname, created_at, updated_at, enabled) VALUES ('test@test.tld', '$2y$10$pF2qXuc8pe2V3zdFXqToBeccuO6/i/021Bk6Zrn/AoqcvkV8lUCHK', 'TEST', 'Test', '2023-02-20 09:13:27.716409', '2023-02-20 09:13:27.716409', true);
 
