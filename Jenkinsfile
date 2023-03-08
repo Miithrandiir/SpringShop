@@ -3,8 +3,10 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                docker.image('maven:3.9-amazoncorretto-19').inside {
-                    sh 'mvn clean package'
+                script {
+                    docker.image('maven:3.9-amazoncorretto-19').inside {
+                        sh 'mvn clean package'
+                    }
                 }
             }
         }
