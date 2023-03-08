@@ -4,6 +4,7 @@ import fr.ulco.springshop.security.UserDetailsService;
 import fr.ulco.springshop.security.UserDetailsServiceInterface;
 import fr.ulco.springshop.security.jwt.JwtAuthenticationEntryPoint;
 import fr.ulco.springshop.security.jwt.JwtTokenFilter;
+import fr.ulco.springshop.security.jwt.JwtTokenUtil;
 import fr.ulco.springshop.service.core.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -50,12 +51,12 @@ public class SecurityConfig {
     }
 
 
-    public JwtTokenFilter jwtTokenFilter() {
-        return new JwtTokenFilter();
+    public JwtTokenFilter jwtTokenFilter(final JwtTokenUtil jwtTokenUtil, final UserDetailsServiceInterface userDetailsService) {
+        return new JwtTokenFilter(userDetailsService, jwtTokenUtil);
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(final HttpSecurity http, final JwtTokenFilter jwtTokenFilter) throws Exception {
         http.csrf()
                 .disable()
                 .authorizeHttpRequests()
@@ -68,7 +69,7 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 
-        return http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class).build();
+        return http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
 
     @Bean

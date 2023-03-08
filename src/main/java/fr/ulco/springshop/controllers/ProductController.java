@@ -5,6 +5,8 @@ import fr.ulco.springshop.model.dto.ProductDTO;
 import fr.ulco.springshop.model.form.ProductForm;
 import fr.ulco.springshop.service.core.ProductServiceInterface;
 import fr.ulco.springshop.service.core.StorageServiceInterface;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.core.io.Resource;
@@ -25,6 +27,7 @@ public class ProductController {
     private final StorageServiceInterface storageService;
 
     @GetMapping(Routes.GET_PRODUCTS)
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<Collection<ProductDTO>> getProducts() {
 
         return ResponseEntity.ok(productService
