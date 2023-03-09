@@ -6,7 +6,7 @@ import fr.ulco.springshop.controllers.Routes;
 import fr.ulco.springshop.model.form.RegisterForm;
 import fr.ulco.springshop.service.core.UserServiceInterface;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;

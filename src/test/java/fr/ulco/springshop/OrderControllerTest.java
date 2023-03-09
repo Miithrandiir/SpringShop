@@ -1,10 +1,9 @@
 package fr.ulco.springshop;
 
-import fr.ulco.springshop.controllers.CategoryController;
 import fr.ulco.springshop.controllers.OrderController;
 import fr.ulco.springshop.controllers.Routes;
 import fr.ulco.springshop.helper.AuthenticationHelper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
