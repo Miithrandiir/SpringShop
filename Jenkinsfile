@@ -10,6 +10,15 @@ pipeline {
                 }
             }
         }
+        stage('Test') {
+            steps {
+                script {
+                    docker.image('maven:3.9-amazoncorretto-19').inside {
+                        sh 'mvn test'
+                    }
+                }
+            }
+        }
     }
 
     post {
