@@ -15,9 +15,10 @@ import java.util.Collection;
 public class OrderConverter extends AbstractBOEntityConverter<OrderEntity, OrderBO> {
 
     private final ProductConverter productConverter;
+    private final UserConverter userConverter;
 
-    public static OrderConverter create(ProductConverter productConverter) {
-        return new OrderConverter(productConverter);
+    public static OrderConverter create(ProductConverter productConverter, UserConverter userConverter) {
+        return new OrderConverter(productConverter, userConverter);
     }
 
     @Override
@@ -50,6 +51,7 @@ public class OrderConverter extends AbstractBOEntityConverter<OrderEntity, Order
         OrderBO o = new OrderBO();
         o.setId(orderEntity.getId());
         o.setCreatedAt(orderEntity.getCreatedAt());
+        o.setUser(userConverter.convertToBO(orderEntity.getUser()));
 
         Collection<OrderItemBO> items = new ArrayList<>();
         orderEntity.getItems().forEach(x -> {

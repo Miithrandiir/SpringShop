@@ -33,3 +33,5 @@ INSERT INTO products_categories (product_id, category_id) VALUES (12, 5);
 INSERT INTO users (email, password, name, firstname, created_at, updated_at, enabled) VALUES ('john@doe.tld', '$2y$10$pF2qXuc8pe2V3zdFXqToBeccuO6/i/021Bk6Zrn/AoqcvkV8lUCHK', 'DOE', 'John', '2023-02-20 09:13:27.716409', '2023-02-20 09:13:27.716409', true);
 INSERT INTO users (email, password, name, firstname, created_at, updated_at, enabled) VALUES ('test@test.tld', '$2y$10$pF2qXuc8pe2V3zdFXqToBeccuO6/i/021Bk6Zrn/AoqcvkV8lUCHK', 'TEST', 'Test', '2023-02-20 09:13:27.716409', '2023-02-20 09:13:27.716409', true);
 
+insert into user_orders(user_id) values (1);
+insert into user_orders_items(order_id, product_id, quantity) values (1, 1, 10);

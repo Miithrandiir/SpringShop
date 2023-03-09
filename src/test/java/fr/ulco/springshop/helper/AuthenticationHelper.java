@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor;
 @Component
 public class AuthenticationHelper {
 
+    public static final String defaultUsername = "john@doe.tld";
+
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
@@ -26,6 +28,10 @@ public class AuthenticationHelper {
 
     public RequestPostProcessor jwt(String username){
         return new AuthenticationHelperPostProcessor(generateToken(username));
+    }
+
+    public RequestPostProcessor jwtUser(){
+        return jwt(defaultUsername);
     }
 
     public static RequestPostProcessor customJwt(String token){

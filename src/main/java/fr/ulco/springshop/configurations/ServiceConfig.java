@@ -1,9 +1,11 @@
 package fr.ulco.springshop.configurations;
 
 import fr.ulco.springshop.model.conveter.CategoryConverter;
+import fr.ulco.springshop.model.conveter.OrderConverter;
 import fr.ulco.springshop.model.conveter.ProductConverter;
 import fr.ulco.springshop.model.conveter.UserConverter;
 import fr.ulco.springshop.model.dao.CategoryRepository;
+import fr.ulco.springshop.model.dao.OrderRepository;
 import fr.ulco.springshop.model.dao.ProductRepository;
 import fr.ulco.springshop.model.dao.UserRepository;
 import fr.ulco.springshop.properties.StorageProperty;
@@ -37,5 +39,10 @@ public class ServiceConfig {
     @Bean
     public StorageServiceInterface storageService(final StorageProperty storageProperty) {
         return FileSystemStorageService.create(storageProperty);
+    }
+
+    @Bean
+    public OrderServiceInterface orderService(final OrderRepository orderRepository, final OrderConverter orderConverter) {
+        return OrderService.create(orderRepository, orderConverter);
     }
 }
