@@ -73,7 +73,7 @@ public class SecurityConfig {
 //                .requestMatchers(Routes.DELETE_CATEGORY_BY_SLUG, Routes.UPDATE_CATEGORY_BY_SLUG).hasRole("USER")
 //                .requestMatchers(Routes.GET_CATEGORIES).access(hasRoleUser)
                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
-                .requestMatchers("/api/auth**", "/api/auth/**").permitAll()
+                .requestMatchers("/api/auth**", "/api/auth/**", Routes.REGISTER).permitAll()
                 .requestMatchers("/webjars/**", "/swagger-ui*/*swagger-initializer.js", "/swagger-ui*/**", "/api/doc**", "/api/doc/**", "/api").permitAll()
 
                 .requestMatchers(HttpMethod.GET, Routes.GET_PRODUCTS, Routes.GET_PRODUCTS + "/**").permitAll()
