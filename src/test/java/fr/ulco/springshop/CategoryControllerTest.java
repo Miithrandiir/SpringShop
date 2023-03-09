@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -54,13 +55,26 @@ public class CategoryControllerTest {
     @Test
     public void testPostCategoriesWithAccess() throws Exception {
 
-        String token = authenticationHelper.generateToken("john@doe.tld");
-
         mvc.perform(MockMvcRequestBuilders.post(Routes.POST_CATEGORIES)
-                .header("Authorization", "Bearer " + token)
-                .contentType("multipart/form-data")
-                .param("name","test"))
+                        .with(authenticationHelper.jwt("john@doe.tld"))
+                        .contentType("multipart/form-data")
+                        .param("name", "test"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testCategoryBySlug() throws Exception {
+
+        var request = MockMvcRequestBuilders.get("/categories/not-exist");
+        mvc.perform(request)
+                .andExpect(status().isNotFound());
+
+        request = MockMvcRequestBuilders.get("/categories/medical");
+        mvc.perform(request)
+
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("slug", equalTo("medical")))
+                .andExpect(jsonPath("name", equalTo("Médical")));
     }
 
 }

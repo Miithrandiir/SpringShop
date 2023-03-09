@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @Tag(name = "Authentication", description = "The authentication API")
-public class JwtAuthenticationController {
+public class AuthenticationController {
 
     private AuthenticationManager authenticationManager;
     private JwtTokenUtil jwtTokenUtil;

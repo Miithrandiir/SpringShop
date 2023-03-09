@@ -22,6 +22,12 @@ public class Routes {
     public static final String POST_PRODUCTS = GET_PRODUCTS;
 
     /**
+     * ROUTE ORDERS
+     */
+    public static final String GET_ORDERS = "/orders";
+    public static final String POST_ORDER = GET_ORDERS;
+
+    /**
      * ROUTE LOGIN
      */
     public static final String LOGIN = "/api/auth";

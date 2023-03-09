@@ -21,8 +21,8 @@ public class ConverterConfig {
     }
 
     @Bean
-    public OrderConverter orderConverter(final ProductConverter productConverter) {
-        return OrderConverter.create(productConverter);
+    public OrderConverter orderConverter(final ProductConverter productConverter, final UserConverter userConverter) {
+        return OrderConverter.create(productConverter, userConverter);
     }
 
     @Bean
