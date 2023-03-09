@@ -20,4 +20,10 @@ public class Routes {
     public static final String GET_PRODUCTS_BY_CATEGORY = "/products/category/{slug}";
     public static final String GET_HIGHLIGHTED_PRODUCTS = "/products/highlighted";
     public static final String POST_PRODUCTS = GET_PRODUCTS;
+
+    /**
+     * ROUTE LOGIN
+     */
+    public static final String LOGIN = "/api/auth";
+
 }
