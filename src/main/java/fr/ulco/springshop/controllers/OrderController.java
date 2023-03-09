@@ -4,6 +4,8 @@ import fr.ulco.springshop.model.bo.OrderBO;
 import fr.ulco.springshop.model.bo.OrderItemBO;
 import fr.ulco.springshop.model.bo.UserBO;
 import fr.ulco.springshop.model.dto.OrderDTO;
+import fr.ulco.springshop.model.dto.OutOfStockDTO;
+import fr.ulco.springshop.model.exception.OutOfStockException;
 import fr.ulco.springshop.model.form.OrderForm;
 import fr.ulco.springshop.service.core.OrderServiceInterface;
 import fr.ulco.springshop.service.core.ProductServiceInterface;
@@ -50,7 +52,7 @@ public class OrderController {
     }
 
     @PostMapping(value = Routes.POST_ORDER)
-    public ResponseEntity<OrderDTO> postOrder(@RequestBody() OrderForm orderForm, Authentication authentication) {
+    public ResponseEntity<?> postOrder(@RequestBody() OrderForm orderForm, Authentication authentication) {
         OrderBO orderBO = new OrderBO();
         orderBO.setCreatedAt(LocalDateTime.now());
         orderBO.setUser(userService.findByEmail(authentication.getName()).get());
@@ -66,7 +68,11 @@ public class OrderController {
             orderBO.getItems().add(orderItemBO);
         });
 
-        return ResponseEntity.ok(new OrderDTO(orderService.save(orderBO)));
+        try {
+            return ResponseEntity.ok(new OrderDTO(orderService.save(orderBO)));
+        } catch (OutOfStockException e) {
+            return ResponseEntity.badRequest().body(new OutOfStockDTO(e.getProducts()));
+        }
     }
 
 

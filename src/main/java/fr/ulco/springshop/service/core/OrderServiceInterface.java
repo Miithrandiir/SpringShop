@@ -1,6 +1,7 @@
 package fr.ulco.springshop.service.core;
 
 import fr.ulco.springshop.model.bo.OrderBO;
+import fr.ulco.springshop.model.exception.OutOfStockException;
 
 import java.util.Collection;
 
@@ -18,5 +19,5 @@ public interface OrderServiceInterface {
      * @param orderBO order to save
      * @return order saved
      */
-    public OrderBO save(OrderBO orderBO);
+    public OrderBO save(OrderBO orderBO) throws OutOfStockException;
 }

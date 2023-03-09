@@ -39,7 +39,7 @@ public class ServiceConfig {
     }
 
     @Bean
-    public OrderServiceInterface orderService(final OrderRepository orderRepository, final OrderItemRepository orderItemRepository, final OrderConverter orderConverter) {
-        return OrderService.create(orderRepository, orderConverter, orderItemRepository);
+    public OrderServiceInterface orderService(final OrderRepository orderRepository, final OrderItemRepository orderItemRepository, final OrderConverter orderConverter, final ProductServiceInterface productService) {
+        return OrderService.create(orderRepository, orderConverter, orderItemRepository, productService);
     }
 }

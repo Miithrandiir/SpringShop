@@ -40,4 +40,11 @@ public interface ProductServiceInterface {
      */
     ProductBO save(ProductBO productBO);
 
+    /**
+     * Update product
+     * @param productBO product to update
+     * @return product updated
+     */
+    ProductBO update(ProductBO productBO);
+
 }

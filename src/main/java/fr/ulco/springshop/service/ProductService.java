@@ -59,6 +59,11 @@ public class ProductService implements ProductServiceInterface {
      */
     @Override
     public ProductBO save(ProductBO productBO) {
-        return productConverter.convertToBO(this.productRepository.save(productConverter.convertToEntity(productBO)));
+        return productConverter.convertToBO(this.productRepository.saveAndFlush(productConverter.convertToEntity(productBO)));
+    }
+
+    @Override
+    public ProductBO update(ProductBO productBO) {
+        return productConverter.convertToBO(this.productRepository.saveAndFlush(productConverter.convertToEntity(productBO)));
     }
 }

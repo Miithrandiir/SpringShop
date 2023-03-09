@@ -95,7 +95,7 @@ public class ProductController {
     }
 
 
-    private String getRouteProductThumbnail(ProductBO productBO) {
+    public static String getRouteProductThumbnail(ProductBO productBO) {
         if (productBO.getThumbnail() == null)
             return null;
         return Routes.GET_PRODUCTS_THUMBNAIL.replace("{id}", String.valueOf(productBO.getId()));
