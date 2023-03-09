@@ -5,6 +5,8 @@ import fr.ulco.springshop.model.dto.ProductDTO;
 import fr.ulco.springshop.model.form.ProductForm;
 import fr.ulco.springshop.service.core.ProductServiceInterface;
 import fr.ulco.springshop.service.core.StorageServiceInterface;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "Products", description = "The products API")
 public class ProductController {
 
     private final ProductServiceInterface productService;
@@ -80,6 +83,7 @@ public class ProductController {
 
 
     @PostMapping(value = Routes.POST_PRODUCTS, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @SecurityRequirement(name = "JWT")
     public ResponseEntity<ProductDTO> postProduct(@ModelAttribute ProductForm productForm) {
 
         String thumbnail = this.storageService.store(productForm.getThumbnail());

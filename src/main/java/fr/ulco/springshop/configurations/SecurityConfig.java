@@ -9,6 +9,7 @@ import fr.ulco.springshop.security.jwt.JwtTokenUtil;
 import fr.ulco.springshop.service.core.UserServiceInterface;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,6 +38,7 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(final AuthenticationConfiguration authConfiguration) throws Exception {
         return authConfiguration.getAuthenticationManager();
     }
+
     @Bean
     public UserDetailsServiceInterface userDetailsService(UserServiceInterface userService) {
         return UserDetailsService.create(userService);
@@ -67,10 +69,14 @@ public class SecurityConfig {
         http.csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers(Routes.DELETE_CATEGORY_BY_SLUG, Routes.UPDATE_CATEGORY_BY_SLUG).hasRole("USER")
-                .requestMatchers(Routes.GET_CATEGORIES).access(hasRoleUser)
-                .requestMatchers("/api/auth**","/api/auth/**").permitAll()
+//                .requestMatchers(Routes.DELETE_CATEGORY_BY_SLUG, Routes.UPDATE_CATEGORY_BY_SLUG).hasRole("USER")
+//                .requestMatchers(Routes.GET_CATEGORIES).access(hasRoleUser)
+                .requestMatchers("/api/auth**", "/api/auth/**").permitAll()
                 .requestMatchers("/webjars/**", "/swagger-ui*/*swagger-initializer.js", "/swagger-ui*/**", "/api/doc**", "/api/doc/**", "/api").permitAll()
+
+                .requestMatchers(HttpMethod.GET, Routes.GET_PRODUCTS, Routes.GET_PRODUCTS + "/**").permitAll()
+                .requestMatchers(HttpMethod.GET, Routes.GET_CATEGORIES, Routes.GET_CATEGORIES + "/**").permitAll()
+
                 .anyRequest()
                 .authenticated()
                 .and()

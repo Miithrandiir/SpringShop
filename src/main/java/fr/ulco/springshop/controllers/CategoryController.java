@@ -5,8 +5,8 @@ import fr.ulco.springshop.model.dto.CategoryDTO;
 import fr.ulco.springshop.model.form.CategoryForm;
 import fr.ulco.springshop.service.core.CategoryServiceInterface;
 import fr.ulco.springshop.service.core.SluggerServiceInterface;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +18,13 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "Categories", description = "The categories API")
 public class CategoryController {
 
     private final CategoryServiceInterface categoryService;
     private final SluggerServiceInterface sluggerService;
 
     @GetMapping(Routes.GET_CATEGORIES)
-    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<Collection<CategoryDTO>> getCategories() {
         return ResponseEntity.ok(categoryService
                 .findAll()
@@ -45,6 +45,7 @@ public class CategoryController {
 
     //ADMIN
     @PostMapping(value = Routes.POST_CATEGORIES, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @SecurityRequirement(name = "JWT")
     public ResponseEntity<CategoryDTO> postCategories(@ModelAttribute CategoryForm categoryDTO) {
         return categoryService.save(
                         new CategoryBO(
@@ -59,14 +60,14 @@ public class CategoryController {
 
     //ADMIN
     @DeleteMapping(value = Routes.DELETE_CATEGORY_BY_SLUG)
-    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
+    @SecurityRequirement(name = "JWT")
     public ResponseEntity<Boolean> deleteCategoryBySlug(@PathVariable String slug) {
         return ResponseEntity.ok(categoryService.deleteBySlug(slug));
     }
 
     //ADMIN
     @PutMapping(value = Routes.UPDATE_CATEGORY_BY_SLUG, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
+    @SecurityRequirement(name = "JWT")
     public ResponseEntity<CategoryDTO> putCategoryBySlug(@PathVariable String slug, @ModelAttribute CategoryForm categoryDTO) {
 
         Optional<CategoryBO> res = categoryService.updateBySlug(

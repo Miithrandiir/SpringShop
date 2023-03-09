@@ -5,6 +5,7 @@ import fr.ulco.springshop.security.UserDetailsServiceInterface;
 import fr.ulco.springshop.security.jwt.JwtRequest;
 import fr.ulco.springshop.security.jwt.JwtResponse;
 import fr.ulco.springshop.security.jwt.JwtTokenUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
+@Tag(name = "Authentication", description = "The authentication API")
 public class JwtAuthenticationController {
 
     private AuthenticationManager authenticationManager;
