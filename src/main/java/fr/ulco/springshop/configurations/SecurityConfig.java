@@ -1,6 +1,7 @@
 package fr.ulco.springshop.configurations;
 
 import fr.ulco.springshop.controllers.Routes;
+import fr.ulco.springshop.security.CustomCorsFilter;
 import fr.ulco.springshop.security.UserDetailsService;
 import fr.ulco.springshop.security.UserDetailsServiceInterface;
 import fr.ulco.springshop.security.jwt.JwtAuthenticationEntryPoint;
@@ -60,7 +61,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(final HttpSecurity http, final JwtTokenFilter jwtTokenFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(final HttpSecurity http, final JwtTokenFilter jwtTokenFilter, final CustomCorsFilter customCorsFilter) throws Exception {
         //https://github.com/spring-projects/spring-security/issues/12766
         AuthorityAuthorizationManager<RequestAuthorizationContext> hasRoleUser =
                 AuthorityAuthorizationManager.hasRole("USER");
@@ -84,7 +85,7 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 
-        return http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class).build();
+        return http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class).addFilterBefore(customCorsFilter, JwtTokenFilter.class).build();
     }
 
     @Bean
