@@ -1,7 +1,7 @@
 package fr.ulco.springshop.configurations;
 
 import fr.ulco.springshop.controllers.Routes;
-import fr.ulco.springshop.security.CustomCorsFilter;
+
 import fr.ulco.springshop.security.UserDetailsService;
 import fr.ulco.springshop.security.UserDetailsServiceInterface;
 import fr.ulco.springshop.security.jwt.JwtAuthenticationEntryPoint;
@@ -61,7 +61,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(final HttpSecurity http, final JwtTokenFilter jwtTokenFilter, final CustomCorsFilter customCorsFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(final HttpSecurity http, final JwtTokenFilter jwtTokenFilter) throws Exception {
         //https://github.com/spring-projects/spring-security/issues/12766
         AuthorityAuthorizationManager<RequestAuthorizationContext> hasRoleUser =
                 AuthorityAuthorizationManager.hasRole("USER");
@@ -72,6 +72,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
 //                .requestMatchers(Routes.DELETE_CATEGORY_BY_SLUG, Routes.UPDATE_CATEGORY_BY_SLUG).hasRole("USER")
 //                .requestMatchers(Routes.GET_CATEGORIES).access(hasRoleUser)
+                .requestMatchers(HttpMethod.OPTIONS).permitAll()
                 .requestMatchers("/api/auth**", "/api/auth/**").permitAll()
                 .requestMatchers("/webjars/**", "/swagger-ui*/*swagger-initializer.js", "/swagger-ui*/**", "/api/doc**", "/api/doc/**", "/api").permitAll()
 
@@ -85,7 +86,7 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 
-        return http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class).addFilterBefore(customCorsFilter, JwtTokenFilter.class).build();
+        return http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
 
     @Bean
