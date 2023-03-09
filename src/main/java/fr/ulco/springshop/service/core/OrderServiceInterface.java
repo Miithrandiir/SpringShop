@@ -12,4 +12,11 @@ public interface OrderServiceInterface {
      * @return list of orders
      */
     Collection<OrderBO> findByUser(int idUser);
+
+    /**
+     * Save order
+     * @param orderBO order to save
+     * @return order saved
+     */
+    public OrderBO save(OrderBO orderBO);
 }

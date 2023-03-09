@@ -26,6 +26,7 @@ public class OrderConverter extends AbstractBOEntityConverter<OrderEntity, Order
         OrderEntity o = new OrderEntity();
         o.setId(orderDTO.getId());
         o.setCreatedAt(orderDTO.getCreatedAt());
+        o.setUser(userConverter.convertToEntity(orderDTO.getUser()));
 
         Collection<OrderItemEntity> items = new ArrayList<>();
         orderDTO.getItems().forEach(x -> {

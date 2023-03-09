@@ -25,6 +25,7 @@ public class Routes {
      * ROUTE ORDERS
      */
     public static final String GET_ORDERS = "/orders";
+    public static final String POST_ORDER = GET_ORDERS;
 
     /**
      * ROUTE LOGIN
