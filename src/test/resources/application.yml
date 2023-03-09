@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:test
+    driver-class-name: org.h2.Driver
+  jpa:
+    show-sql: true # Pour afficher les requ?tes SQL dans la console
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+  h2:
+    console:
+      enabled: true
+
+springdoc:
+  swagger-ui.path: /api
+  api-docs.path: /api/doc
+
+logging.level:
+  org.springframework.web: DEBUG
+  org.hibernate.SQL: DEBUG
+  org.hibernate.type: TRACE
+  fr.ulco: DEBUG
+
+jwt:
+  secret: "mysecretkey"
