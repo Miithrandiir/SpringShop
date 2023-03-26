@@ -2,6 +2,7 @@ package fr.ulco.springshop.model.form;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
@@ -14,7 +15,8 @@ public class ProductForm {
 
     private String description;
 
-    private MultipartFile thumbnail;
+    @Nullable
+    private MultipartFile thumbnail = null;
 
 
 }
