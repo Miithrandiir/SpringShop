@@ -37,7 +37,7 @@ public class ProductService implements ProductServiceInterface {
      * @inheritDoc
      */
     @Override
-    @Cacheable(cacheNames = "products", key = "#id", condition = "#result != null")
+    @Cacheable(cacheNames = "products", key = "#id")
     public Optional<ProductBO> findById(int id) {
         return this.productRepository.findById(id).map(productConverter::convertToBO);
     }
