@@ -2,9 +2,9 @@ package fr.ulco.springshop.controllers;
 
 import fr.ulco.springshop.model.bo.UserBO;
 import fr.ulco.springshop.model.dto.UserDTO;
+import fr.ulco.springshop.model.form.LoginForm;
 import fr.ulco.springshop.model.form.RegisterForm;
 import fr.ulco.springshop.security.UserDetailsServiceInterface;
-import fr.ulco.springshop.model.form.LoginForm;
 import fr.ulco.springshop.security.jwt.JwtResponse;
 import fr.ulco.springshop.security.jwt.JwtTokenUtil;
 import fr.ulco.springshop.service.core.UserServiceInterface;
@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -76,5 +78,11 @@ public class AuthenticationController {
         user = userService.createUser(user);
 
         return ResponseEntity.ok(new UserDTO(user));
+    }
+
+    @RequestMapping(value = Routes.ME, method = RequestMethod.GET)
+    public ResponseEntity<?> me(Authentication authentication) {
+        Optional<UserBO> user = userService.findByEmail(authentication.getName());
+        return user.map(value -> ResponseEntity.ok(new UserDTO(value))).orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
 }

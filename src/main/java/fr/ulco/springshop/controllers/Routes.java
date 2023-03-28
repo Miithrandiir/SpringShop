@@ -32,5 +32,6 @@ public class Routes {
      */
     public static final String LOGIN = "/api/auth";
     public static final String REGISTER = "/users/register";
+    public static final String ME = "/users/me";
 
 }
