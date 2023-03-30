@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+.jpb
+
+upload-dir
+
+spring_shop_frontend
