@@ -1,21 +1,34 @@
 package fr.ulco.springshop.controllers;
 
+import fr.ulco.springshop.model.bo.CategoryBO;
+import fr.ulco.springshop.model.bo.ProductBO;
 import fr.ulco.springshop.model.dto.ProductDTO;
+import fr.ulco.springshop.model.form.ProductForm;
+import fr.ulco.springshop.service.CategoryService;
 import fr.ulco.springshop.service.core.ProductServiceInterface;
+import fr.ulco.springshop.service.core.StorageServiceInterface;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "Products", description = "The products API")
 public class ProductController {
 
     private final ProductServiceInterface productService;
+    private final StorageServiceInterface storageService;
+
+    private final CategoryService categoryService;
 
     @GetMapping(Routes.GET_PRODUCTS)
     public ResponseEntity<Collection<ProductDTO>> getProducts() {
@@ -23,9 +36,23 @@ public class ProductController {
         return ResponseEntity.ok(productService
                 .findAll()
                 .stream()
-                .map(x -> new ProductDTO(x.getName(), x.getPrice(), x.getQuantity(), x.getDescription(), x.getThumbnail()))
+                .map(ProductDTO::new)
                 .collect(Collectors.toList())
         );
+    }
+
+    @GetMapping(Routes.GET_PRODUCTS_THUMBNAIL)
+    public ResponseEntity<Resource> getProductsThumbnail(@PathVariable int id) {
+        Optional<ProductBO> productBO = productService.findById(id);
+        if (productBO.isPresent() && productBO.get().getThumbnail() != null) {
+
+            Resource resource = storageService.loadAsResource(productBO.get().getThumbnail());
+            return
+                    ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                                    "attachment; filename=\"" + productBO.get().getThumbnail() + "\"")
+                            .body(resource);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping(Routes.GET_PRODUCTS_BY_CATEGORY)
@@ -33,9 +60,97 @@ public class ProductController {
         return ResponseEntity.ok(productService
                 .findByCategory(slug)
                 .stream()
-                .map(x -> new ProductDTO(x.getName(), x.getPrice(), x.getQuantity(), x.getDescription(), x.getThumbnail()))
+                .map(ProductDTO::new)
                 .collect(Collectors.toList())
         );
+    }
+
+    @GetMapping(Routes.GET_HIGHLIGHTED_PRODUCTS)
+    public ResponseEntity<Collection<ProductDTO>> getHighlightedProducts() {
+        return ResponseEntity.ok(productService
+                .findByHighlighted()
+                .stream()
+                .map(ProductDTO::new)
+                .collect(Collectors.toList())
+        );
+    }
+
+    @GetMapping(Routes.GET_PRODUCT_BY_ID)
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable int id) {
+        return productService
+                .findById(id)
+                .map(ProductDTO::new)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+
+    }
+
+
+    @PostMapping(value = Routes.POST_PRODUCT, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @SecurityRequirement(name = "JWT")
+    public ResponseEntity<ProductDTO> postProduct(@ModelAttribute ProductForm productForm) {
+
+        String thumbnail = null;
+        if (productForm.getThumbnail() != null && !productForm.getThumbnail().isEmpty())
+            thumbnail = this.storageService.store(productForm.getThumbnail());
+
+
+        Collection<CategoryBO> categories = productForm.getCategories().stream()
+                .map(CategoryController::getSlugFromRouteCategory)
+                .map(categoryService::findBySlug)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
+
+        ProductBO createdBo = productService
+                .save(new ProductBO(productForm.getName(), productForm.getPrice(), productForm.getQuantity(), productForm.getDescription(), thumbnail, categories, productForm.isHighlighted()));
+
+        return ResponseEntity.ok(new ProductDTO(createdBo));
+    }
+
+
+    @PutMapping(value = Routes.PUT_PRODUCT, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @SecurityRequirement(name = "JWT")
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable int id, @ModelAttribute ProductForm productForm) {
+
+        Optional<ProductBO> productBO = productService.findById(id);
+        if (productBO.isEmpty())
+            return ResponseEntity.notFound().build();
+
+
+        String thumbnail = null;
+        if (productForm.getThumbnail() != null && !productForm.getThumbnail().isEmpty())
+            thumbnail = this.storageService.store(productForm.getThumbnail());
+
+
+        Collection<CategoryBO> categories = productForm.getCategories().stream()
+                .map(CategoryController::getSlugFromRouteCategory)
+                .map(categoryService::findBySlug)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
+
+        ProductBO product = productBO.get();
+        product.setName(productForm.getName());
+        product.setPrice(productForm.getPrice());
+        product.setQuantity(productForm.getQuantity());
+        product.setDescription(productForm.getDescription());
+        product.setHighlighted(productForm.isHighlighted());
+        if (thumbnail != null)
+            product.setThumbnail(thumbnail);
+        product.setCategories(categories);
+
+        ProductBO createdBo = productService
+                .save(product);
+
+        return ResponseEntity.ok(new ProductDTO(createdBo));
+    }
+
+
+    public static String getRouteProductThumbnail(ProductBO productBO) {
+        if (productBO.getThumbnail() == null)
+            return null;
+        return Routes.GET_PRODUCTS_THUMBNAIL.replace("{id}", String.valueOf(productBO.getId()));
     }
 
 }

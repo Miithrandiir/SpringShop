@@ -24,6 +24,7 @@ public class UserConverter extends AbstractBOEntityConverter<UserEntity, UserBO>
         user.setFirstname(userBO.getFirstname());
         user.setPassword(userBO.getPassword());
         user.setEmail(userBO.getEmail());
+        user.setRole(userBO.getRole());
 
         return user;
     }
@@ -39,7 +40,8 @@ public class UserConverter extends AbstractBOEntityConverter<UserEntity, UserBO>
                 entity.getFirstname(),
                 entity.getCreatedAt(),
                 entity.getUpdatedAt(),
-                entity.isEnabled()
+                entity.isEnabled(),
+                entity.getRole()
         );
     }
 }

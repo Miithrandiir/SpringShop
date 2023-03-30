@@ -16,18 +16,18 @@ public class ConverterConfig {
     }
 
     @Bean
-    public ProductConverter productConverter() {
-        return ProductConverter.create();
+    public ProductConverter productConverter(final CategoryConverter categoryConverter) {
+        return ProductConverter.create(categoryConverter);
     }
 
     @Bean
-    public OrderConverter orderConverter(final ProductConverter productConverter) {
-        return OrderConverter.create(productConverter);
+    public OrderConverter orderConverter(final ProductConverter productConverter, final UserConverter userConverter) {
+        return OrderConverter.create(productConverter, userConverter);
     }
 
     @Bean
-    public CategoryConverter categoryConverter(final ProductConverter productConverter) {
-        return CategoryConverter.create(productConverter);
+    public CategoryConverter categoryConverter() {
+        return CategoryConverter.create();
     }
 
 
