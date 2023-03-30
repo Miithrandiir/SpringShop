@@ -10,14 +10,12 @@ import fr.ulco.springshop.service.core.StorageServiceInterface;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -88,11 +86,13 @@ public class ProductController {
     }
 
 
-    @PostMapping(value = Routes.POST_PRODUCTS, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = Routes.POST_PRODUCT, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @SecurityRequirement(name = "JWT")
     public ResponseEntity<ProductDTO> postProduct(@ModelAttribute ProductForm productForm) {
 
-        String thumbnail = this.storageService.store(productForm.getThumbnail());
+        String thumbnail = null;
+        if (productForm.getThumbnail() != null && !productForm.getThumbnail().isEmpty())
+            thumbnail = this.storageService.store(productForm.getThumbnail());
 
 
         Collection<CategoryBO> categories = productForm.getCategories().stream()
@@ -104,6 +104,43 @@ public class ProductController {
 
         ProductBO createdBo = productService
                 .save(new ProductBO(productForm.getName(), productForm.getPrice(), productForm.getQuantity(), productForm.getDescription(), thumbnail, categories));
+
+        return ResponseEntity.ok(new ProductDTO(createdBo));
+    }
+
+
+    @PutMapping(value = Routes.PUT_PRODUCT, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @SecurityRequirement(name = "JWT")
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable int id, @ModelAttribute ProductForm productForm) {
+
+        Optional<ProductBO> productBO = productService.findById(id);
+        if (productBO.isEmpty())
+            return ResponseEntity.notFound().build();
+
+
+        String thumbnail = null;
+        if (productForm.getThumbnail() != null && !productForm.getThumbnail().isEmpty())
+            thumbnail = this.storageService.store(productForm.getThumbnail());
+
+
+        Collection<CategoryBO> categories = productForm.getCategories().stream()
+                .map(CategoryController::getSlugFromRouteCategory)
+                .map(categoryService::findBySlug)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
+
+        ProductBO product = productBO.get();
+        product.setName(productForm.getName());
+        product.setPrice(productForm.getPrice());
+        product.setQuantity(productForm.getQuantity());
+        product.setDescription(productForm.getDescription());
+        if (thumbnail != null)
+            product.setThumbnail(thumbnail);
+        product.setCategories(categories);
+
+        ProductBO createdBo = productService
+                .save(product);
 
         return ResponseEntity.ok(new ProductDTO(createdBo));
     }
