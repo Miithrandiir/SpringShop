@@ -22,5 +22,6 @@ public class ProductForm {
 
     private List<String> categories;
 
+    private boolean isHighlighted;
 
 }

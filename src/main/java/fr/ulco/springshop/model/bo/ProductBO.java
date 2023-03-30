@@ -26,13 +26,14 @@ public class ProductBO {
     private Collection<CategoryBO> categories;
     private boolean isHighlighted;
 
-    public ProductBO(String name, float price, int quantity, String description, String thumbnail, Collection<CategoryBO> categories) {
+    public ProductBO(String name, float price, int quantity, String description, String thumbnail, Collection<CategoryBO> categories, boolean isHighlighted) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.description = description;
         this.thumbnail = thumbnail;
         this.categories = categories;
+        this.isHighlighted = isHighlighted;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }

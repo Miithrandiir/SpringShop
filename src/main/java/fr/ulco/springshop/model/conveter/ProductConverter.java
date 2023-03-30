@@ -28,6 +28,7 @@ public class ProductConverter extends AbstractBOEntityConverter<ProductEntity, P
         p.setQuantity(productBO.getQuantity());
         p.setThumbnail(productBO.getThumbnail());
         p.setCategories(productBO.getCategories().stream().map(categoryConverter::convertToEntity).collect(Collectors.toSet()));
+        p.setHighlighted(productBO.isHighlighted());
 
         return p;
     }
@@ -43,6 +44,7 @@ public class ProductConverter extends AbstractBOEntityConverter<ProductEntity, P
         p.setQuantity(productEntity.getQuantity());
         p.setThumbnail(productEntity.getThumbnail());
         p.setCategories(productEntity.getCategories().stream().map(categoryConverter::convertToBO).collect(Collectors.toList()));
+        p.setHighlighted(productEntity.isHighlighted());
 
         return p;
     }

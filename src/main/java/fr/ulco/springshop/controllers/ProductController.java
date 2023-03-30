@@ -103,7 +103,7 @@ public class ProductController {
                 .toList();
 
         ProductBO createdBo = productService
-                .save(new ProductBO(productForm.getName(), productForm.getPrice(), productForm.getQuantity(), productForm.getDescription(), thumbnail, categories));
+                .save(new ProductBO(productForm.getName(), productForm.getPrice(), productForm.getQuantity(), productForm.getDescription(), thumbnail, categories, productForm.isHighlighted()));
 
         return ResponseEntity.ok(new ProductDTO(createdBo));
     }
@@ -135,6 +135,7 @@ public class ProductController {
         product.setPrice(productForm.getPrice());
         product.setQuantity(productForm.getQuantity());
         product.setDescription(productForm.getDescription());
+        product.setHighlighted(productForm.isHighlighted());
         if (thumbnail != null)
             product.setThumbnail(thumbnail);
         product.setCategories(categories);

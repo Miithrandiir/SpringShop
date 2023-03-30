@@ -26,7 +26,6 @@ public class ProductDTO {
     private String thumbnail;
 
     private List<String> categories;
-
     public ProductDTO(ProductBO productBO) {
         this.id = productBO.getId();
         this.name = productBO.getName();
