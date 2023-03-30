@@ -11,10 +11,10 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 @EnableConfigurationProperties(StorageProperty.class)
-public class StatutisApplication {
+public class SpringShopApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(StatutisApplication.class, args);
+        SpringApplication.run(SpringShopApplication.class, args);
     }
 
     @Bean
