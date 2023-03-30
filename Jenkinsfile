@@ -4,7 +4,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    docker.image('maven:3.9-amazoncorretto-19').inside {
+                    docker.image('maven:3.9-amazoncorretto-17').inside {
                         sh 'mvn clean package -DskipTests'
                     }
                 }
@@ -13,7 +13,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    docker.image('maven:3.9-amazoncorretto-19').inside {
+                    docker.image('maven:3.9-amazoncorretto-17').inside {
                         sh 'mvn test'
                     }
                 }
