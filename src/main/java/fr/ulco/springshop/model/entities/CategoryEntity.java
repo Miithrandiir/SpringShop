@@ -5,13 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Table(name = "categories")
 @Entity
 @Setter
 @Getter
+@NoArgsConstructor
 public class CategoryEntity {
 
     @Id
@@ -25,10 +26,6 @@ public class CategoryEntity {
     private String slug;
 
     @ManyToMany(mappedBy = "categories")
-    private Collection<ProductEntity> products;
-
-    public CategoryEntity(){
-        products = Collections.emptyList();
-    }
+    private Set<ProductEntity> products = new LinkedHashSet<>();
 
 }

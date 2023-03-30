@@ -11,10 +11,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class CategoryConverter extends AbstractBOEntityConverter<CategoryEntity, CategoryBO> {
 
-    private final ProductConverter productConverter;
-
-    public static CategoryConverter create(final ProductConverter productConverter) {
-        return new CategoryConverter(productConverter);
+    public static CategoryConverter create() {
+        return new CategoryConverter(   );
     }
 
     @Override

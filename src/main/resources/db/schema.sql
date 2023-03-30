@@ -18,12 +18,13 @@ create table products
 (
     id          INT GENERATED ALWAYS AS IDENTITY,
     name        varchar(255)   not null,
-    price       decimal(10, 2) not null,
+    price       float not null,
     quantity    int check ( quantity >= 0 ),
     created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
     updated_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
     description text         default null,
     thumbnail   varchar(255) default null,
+    highlighted bool         default false,
     primary key (id)
 );
 
@@ -57,6 +58,7 @@ create table users
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     enabled    bool      default true,
+    role       varchar(255) default 'ROLE_USER',
     primary key (id)
 );
 
