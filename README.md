@@ -19,16 +19,12 @@ make front
 Pour lancer le projet, il suffit de lancer les commandes suivantes :
 ```bash
 make up
-make front-up
+make front
 ```
 Ces commandes auront pour effet de lancer la base de données et le cache redis ainsi que le frontend.
 
 ## Arrêt
-Pour arrêter le projet, il suffit de lancer la commande suivante :
-```bash
-make down
-make front-down
-```
+Pour arrêter le projet, il suffit quitter en faisant `Ctrl+C` dans les deux terminaux ouverts.
 
 # Architecture
 
@@ -55,5 +51,6 @@ Pour l'authentification, nous avons opté pour une authentification par token JW
 Swagger est utilisé pour documenter l'API. Il est accessible à l'adresse suivante : [http://localhost:8080/api](http://localhost:8080/api)
 
 ## Image
-Image trouvable dans le dossier `.asset` du projet. [lien de l'image](.asset/architecture.svg)
+Image trouvable dans le dossier `.asset` du projet. [lien de l'image SVG](.asset/architecture.svg)
+[lien de l'image JPG](.asset/architecture.jpg)
 <img src=".asset/architecture.svg" alt="Architecture">
