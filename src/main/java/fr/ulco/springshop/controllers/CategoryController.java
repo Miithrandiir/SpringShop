@@ -1,6 +1,7 @@
 package fr.ulco.springshop.controllers;
 
 import fr.ulco.springshop.model.bo.CategoryBO;
+import fr.ulco.springshop.model.bo.ProductBO;
 import fr.ulco.springshop.model.dto.CategoryDTO;
 import fr.ulco.springshop.model.form.CategoryForm;
 import fr.ulco.springshop.service.core.CategoryServiceInterface;
@@ -84,5 +85,14 @@ public class CategoryController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
 
+    }
+
+
+    public static String getRouteCategory(CategoryBO categoryBO) {
+        return Routes.GET_CATEGORY_BY_SLUG.replace("{slug}", String.valueOf(categoryBO.getSlug()));
+    }
+
+    public static String getSlugFromRouteCategory(String categoryRouter) {
+        return categoryRouter.replace(Routes.GET_CATEGORY_BY_SLUG.replace("{slug}", ""), "");
     }
 }

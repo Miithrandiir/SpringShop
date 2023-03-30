@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Getter
@@ -25,12 +26,13 @@ public class ProductBO {
     private Collection<CategoryBO> categories;
     private boolean isHighlighted;
 
-    public ProductBO(String name, float price, int quantity, String description, String thumbnail) {
+    public ProductBO(String name, float price, int quantity, String description, String thumbnail, Collection<CategoryBO> categories) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.description = description;
         this.thumbnail = thumbnail;
+        this.categories = categories;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }

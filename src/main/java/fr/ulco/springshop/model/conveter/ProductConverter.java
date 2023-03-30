@@ -6,11 +6,15 @@ import fr.ulco.springshop.model.entities.ProductEntity;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProductConverter extends AbstractBOEntityConverter<ProductEntity, ProductBO> {
 
-    public static ProductConverter create(){
-        return new ProductConverter();
+    private final CategoryConverter categoryConverter;
+
+    public static ProductConverter create(final CategoryConverter categoryConverter) {
+        return new ProductConverter(categoryConverter);
     }
 
     @Override
@@ -23,8 +27,7 @@ public class ProductConverter extends AbstractBOEntityConverter<ProductEntity, P
         p.setPrice(productBO.getPrice());
         p.setQuantity(productBO.getQuantity());
         p.setThumbnail(productBO.getThumbnail());
-
-        // TODO Catégories
+        p.setCategories(productBO.getCategories().stream().map(categoryConverter::convertToEntity).collect(Collectors.toSet()));
 
         return p;
     }
@@ -39,8 +42,7 @@ public class ProductConverter extends AbstractBOEntityConverter<ProductEntity, P
         p.setPrice(productEntity.getPrice());
         p.setQuantity(productEntity.getQuantity());
         p.setThumbnail(productEntity.getThumbnail());
-
-        // TODO Catégories
+        p.setCategories(productEntity.getCategories().stream().map(categoryConverter::convertToBO).collect(Collectors.toList()));
 
         return p;
     }

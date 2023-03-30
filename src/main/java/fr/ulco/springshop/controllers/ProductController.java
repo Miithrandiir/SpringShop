@@ -1,8 +1,10 @@
 package fr.ulco.springshop.controllers;
 
+import fr.ulco.springshop.model.bo.CategoryBO;
 import fr.ulco.springshop.model.bo.ProductBO;
 import fr.ulco.springshop.model.dto.ProductDTO;
 import fr.ulco.springshop.model.form.ProductForm;
+import fr.ulco.springshop.service.CategoryService;
 import fr.ulco.springshop.service.core.ProductServiceInterface;
 import fr.ulco.springshop.service.core.StorageServiceInterface;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -15,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,13 +30,15 @@ public class ProductController {
     private final ProductServiceInterface productService;
     private final StorageServiceInterface storageService;
 
+    private final CategoryService categoryService;
+
     @GetMapping(Routes.GET_PRODUCTS)
     public ResponseEntity<Collection<ProductDTO>> getProducts() {
 
         return ResponseEntity.ok(productService
                 .findAll()
                 .stream()
-                .map(x -> new ProductDTO(x.getId(), x.getName(), x.getPrice(), x.getQuantity(), x.getDescription(), getRouteProductThumbnail(x)))
+                .map(ProductDTO::new)
                 .collect(Collectors.toList())
         );
     }
@@ -57,7 +62,7 @@ public class ProductController {
         return ResponseEntity.ok(productService
                 .findByCategory(slug)
                 .stream()
-                .map(x -> new ProductDTO(x.getId(), x.getName(), x.getPrice(), x.getQuantity(), x.getDescription(), getRouteProductThumbnail(x)))
+                .map(ProductDTO::new)
                 .collect(Collectors.toList())
         );
     }
@@ -67,7 +72,7 @@ public class ProductController {
         return ResponseEntity.ok(productService
                 .findByHighlighted()
                 .stream()
-                .map(x -> new ProductDTO(x.getId(), x.getName(), x.getPrice(), x.getQuantity(), x.getDescription(), getRouteProductThumbnail(x)))
+                .map(ProductDTO::new)
                 .collect(Collectors.toList())
         );
     }
@@ -76,7 +81,7 @@ public class ProductController {
     public ResponseEntity<ProductDTO> getProductById(@PathVariable int id) {
         return productService
                 .findById(id)
-                .map(x -> new ProductDTO(x.getId(), x.getName(), x.getPrice(), x.getQuantity(), x.getDescription(), getRouteProductThumbnail(x)))
+                .map(ProductDTO::new)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
 
@@ -89,10 +94,18 @@ public class ProductController {
 
         String thumbnail = this.storageService.store(productForm.getThumbnail());
 
-        ProductBO createdBo = productService
-                .save(new ProductBO(productForm.getName(), productForm.getPrice(), productForm.getQuantity(), productForm.getDescription(), thumbnail));
 
-        return ResponseEntity.ok(new ProductDTO(createdBo.getId(), createdBo.getName(), createdBo.getPrice(), createdBo.getQuantity(), createdBo.getDescription(), getRouteProductThumbnail(createdBo)));
+        Collection<CategoryBO> categories = productForm.getCategories().stream()
+                .map(CategoryController::getSlugFromRouteCategory)
+                .map(categoryService::findBySlug)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
+
+        ProductBO createdBo = productService
+                .save(new ProductBO(productForm.getName(), productForm.getPrice(), productForm.getQuantity(), productForm.getDescription(), thumbnail, categories));
+
+        return ResponseEntity.ok(new ProductDTO(createdBo));
     }
 
 

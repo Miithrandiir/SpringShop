@@ -16,8 +16,8 @@ public class ConverterConfig {
     }
 
     @Bean
-    public ProductConverter productConverter() {
-        return ProductConverter.create();
+    public ProductConverter productConverter(final CategoryConverter categoryConverter) {
+        return ProductConverter.create(categoryConverter);
     }
 
     @Bean
@@ -26,8 +26,8 @@ public class ConverterConfig {
     }
 
     @Bean
-    public CategoryConverter categoryConverter(final ProductConverter productConverter) {
-        return CategoryConverter.create(productConverter);
+    public CategoryConverter categoryConverter() {
+        return CategoryConverter.create();
     }
 
 
