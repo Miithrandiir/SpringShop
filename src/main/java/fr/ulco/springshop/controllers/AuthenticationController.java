@@ -8,6 +8,7 @@ import fr.ulco.springshop.security.UserDetailsServiceInterface;
 import fr.ulco.springshop.security.jwt.JwtResponse;
 import fr.ulco.springshop.security.jwt.JwtTokenUtil;
 import fr.ulco.springshop.service.core.UserServiceInterface;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -81,6 +82,7 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = Routes.ME, method = RequestMethod.GET)
+    @SecurityRequirement(name = "JWT")
     public ResponseEntity<?> me(Authentication authentication) {
         Optional<UserBO> user = userService.findByEmail(authentication.getName());
         return user.map(value -> ResponseEntity.ok(new UserDTO(value))).orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
