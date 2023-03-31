@@ -17,6 +17,8 @@ public class OrderDTO {
     private final String user;
     private final List<OderItemDto> items;
 
+    private double price = 0.0;
+
     public OrderDTO(OrderBO orderBO) {
         this.id = orderBO.getId();
         this.createdAt = orderBO.getCreatedAt();
@@ -26,6 +28,8 @@ public class OrderDTO {
         for (OrderItemBO orderItemBO : orderBO.getItems()) {
             this.items.add(new OderItemDto(Routes.GET_PRODUCT_BY_ID.replace("{id}", String.valueOf(orderItemBO.getProduct().getId())), orderItemBO.getQuantity()));
         }
+
+        this.price = orderBO.getItems().stream().mapToDouble(orderItemBO -> orderItemBO.getProduct().getPrice() * orderItemBO.getQuantity()).sum();
 
     }
 
@@ -45,7 +49,7 @@ public class OrderDTO {
         return items;
     }
 
-    private class OderItemDto{
+    private class OderItemDto {
         private final String product;
         private final int quantity;
 
@@ -61,5 +65,9 @@ public class OrderDTO {
         public int getQuantity() {
             return quantity;
         }
+    }
+
+    public double getPrice() {
+        return price;
     }
 }
